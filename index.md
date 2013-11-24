@@ -14,7 +14,8 @@
 <ul class="posts">
 <h2 id="index_titleline">{{page.titleline}}</h2>
 <hr id="index_line" />
-<div class="span8 pull-left">
+
+<div class="span6 pull-left">
   <ul class="posts index_posts span8">
   <!-- for post in site.posts -->
   {% for post in site.posts %}
@@ -28,30 +29,15 @@
   </li>
    {% endfor %}
 </ul>
+
 </div>
-  </ul>
-  <ul class="pager">
-   {% if site.previous_page %}
-   <li class="previous">
-   {% if site.page == 2 %}
-   <a href="/" rel="bookmark">Previous Page</a>
-   {% else %}
-   <a href="/page{{ site.previous_page }}" rel="bookmark">Previous Page</a>
-   {% endif %}
-   </li>
-   {% endif %}
-   {% if site.next_page %}
-   <li class="next">
-   <a href="/page{{ site.next_page }}" rel="bookmark" style="float:right">Next Page</a>
-   </li>
-   {% endif %}
-  </ul>
-</div>
- 
 
 <div id="aside" class="well sidebar-nav">
 <ul class="nav nav-list">
- 
+ <li class="nav-header">About me</li>
+<li>生活在魔都的小码农  o(-"-)o</li>
+<li>我的微博：<a href="http://weibo.com/ecnushako">盘子里想家的鱼</a></li>
+<li>我的博客：<a href="http://sorafantasy.blogspot.com">空の幻想</a></li>  
   <li class="nav-header">Categories</li>
   {% assign categories_list = site.categories %}
   {% include JB/categories_list %}
@@ -71,3 +57,26 @@
   <li class="clear"></li>
 </ul>
 </div>
+  </ul>
+  <ul class="pager">
+   {% if site.previous_page %}
+   <li class="previous">
+   {% if site.page == 2 %}
+   <a href="/" rel="bookmark">Previous Page</a>
+   {% else %}
+   <a href="/page{{ site.previous_page }}" rel="bookmark">Previous Page</a>
+   {% endif %}
+   </li>
+   {% endif %}
+   {% if site.next_page %}
+   <li class="next">
+   <a href="/page{{ site.next_page }}" rel="bookmark" style="float:right">Next Page</a>
+   </li>
+   {% endif %}
+
+  </ul>
+
+</div>
+ 
+
+
