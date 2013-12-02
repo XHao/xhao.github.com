@@ -3,7 +3,7 @@
  title: Hello World!
  tagline: Supporting tagline
  title: Welcome to Shako's Home
- tagline: Enjoy Life & For Your Piece
+ tagline: Enjoy Life & For Your OnePiece
  titleline: Home
  links: 
   
@@ -35,9 +35,9 @@
 <div id="aside" class="well sidebar-nav">
 <ul class="nav nav-list">
  <li class="nav-header">About me</li>
-<li>生活在魔都的小码农  o(-"-)o</li>
-<li>我的微博：<a href="http://weibo.com/ecnushako">盘子里想家的鱼</a></li>
-<li>我的博客：<a href="http://sorafantasy.blogspot.com">空の幻想</a></li>  
+<img width="160" height="160" target="_blank" src = "{{ ASSET_PATH }}/images/avatar.jpg"/>
+<li style="margin-top:9px">微博：<a href="http://weibo.com/ecnushako">盘子里想家的鱼</a></li>
+<li style="margin-top:9px">博客：<a href="http://sorafantasy.blogspot.com">空の幻想</a></li>  
   <li class="nav-header">Categories</li>
   {% assign categories_list = site.categories %}
   {% include JB/categories_list %}
@@ -54,6 +54,7 @@
   {% endfor %}
   {% endif %}
   {% assign tags_list = nil %}
+
   <li class="clear"></li>
 </ul>
 </div>
