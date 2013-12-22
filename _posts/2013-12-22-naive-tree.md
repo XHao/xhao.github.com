@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 数据库反模式_树
+title: 数据库反模式：树
 category: sql antipattern
 excerpt: 在阅读SQL Antipatterns时，几乎是重新认识了数据库设计。原作者（Bill Karwin）非常厉害，他的数据库经验对于普通的开发人员来说，是很宝贵的。尤其是像我，在设计数据库时，往往会陷入一种纠结中......
 tags: [sql]
