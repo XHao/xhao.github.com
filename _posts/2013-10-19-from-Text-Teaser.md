@@ -3,7 +3,7 @@ layout: post
 title: 自动摘要研究
 category: auto excerpt
 excerpt: 摘要能够帮助人们快速浏览一篇文章，使其自动化显得有点意思
-tags: [auto excerpt]
+tags: [autoExcerpt]
 ---
 {% include JB/setup %}
 ### 从TextTeaser说起 ###
