@@ -3,7 +3,7 @@ layout: post
 title: 初学代码块
 category: ruby
 excerpt: 第一篇文章不知道从何处开始，只能胡言乱语了
-tags: [初学者, ruby, 元编程]
+tags: [学习笔记, ruby, 元编程]
 ---
 {% include JB/setup %}
 

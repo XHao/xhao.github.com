@@ -3,7 +3,7 @@ layout: post
 title: ruby 元编程
 category: ruby
 excerpt: 开始只是<a href="http://weibo.com/kevinclcn">@龙哥</a>”引诱“我的，但后来我被DSL吸引了，ruby蛮有意思
-tags: [初学者, ruby, 元编程]
+tags: [学习笔记, ruby, 元编程]
 ---
 {% include JB/setup %}
 
