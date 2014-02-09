@@ -3,7 +3,7 @@
  title: Hello World!
  tagline: Supporting tagline
  title: Welcome to Shako's Home
- tagline: Enjoy Life & For Your OnePiece
+ tagline: Enjoy Tech & Life
  titleline: Home
  links: 
   
