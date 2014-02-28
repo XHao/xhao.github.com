@@ -19,7 +19,7 @@ tags: [sql, 学习笔记]
 rownum是oracle在取数据时的编号，它并不参与排序。例如，`select rownum ,id,name from student order by name`取出的结果很有可能是这样  
 
 	ROWNUM ID  NAME
-	---------- ------ 
+    ---------- ------
 	3 200003 李三
 	2 200002 王二
     1 200001 张一
