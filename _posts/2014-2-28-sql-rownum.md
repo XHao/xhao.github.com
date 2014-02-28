@@ -14,7 +14,8 @@ tags: [sql, 学习笔记]
 2. Oracle fetches the first row and calls it row number 1.  
 3. Have we gotten past row number meets the criteria? If no, then Oracle discards the row, If yes, then Oracle return the row.  
 4. Oracle fetches the next row and advances the row number (to 2, and then to 3, and then to 4, and so forth).  
-5. Go to step 3.  
+5. Go to step 3.
+  
 翻译过来就是，oracle首先取出第一行，并给这条记录赋予了一个数字“1”；如果这条记录通过了筛选，那么rownum就会自增，否则rownum被重新置为“1”。所以取出的记录中，如果没有“1”，就永远不会出现其他数字，取出的结果集中的rownum必然是存在类似的结果：“1，2，3，4，5......”，也就意味着“rownum>?”不可能出现。rownum说到底只是oracle分配给取出的行的一个编号，是一个伪字段。总结起来，oracle中的“rownum=1”，“rownum&lt;?”是可行的。如果想要实现“rownum>?”需要使用临时表，比如这样`select * from (select rownum no,id,name from student where rownum<=3 ) where no >=2`。  
 rownum是oracle在取数据时的编号，它并不参与排序。例如，`select rownum ,id,name from student order by name`取出的结果很有可能是这样  
 
