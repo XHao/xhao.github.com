@@ -18,7 +18,7 @@
 <div class="span6 pull-left">
   <ul class="posts index_posts span8">
   <!-- for post in site.posts -->
-  {% for post in site.posts %}
+  {% for post in paginator.posts %}
    
    <li>
 <div class="index_intro span6">
@@ -29,6 +29,35 @@
   </li>
    {% endfor %}
 </ul>
+
+{% if paginator.total_pages > 1 %}
+<div class="pagination">
+  <ul style="margin-top:1em">
+  {% if paginator.previous_page %}
+  
+    <li class="prev"><a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">&larr; Previous</a></li>
+  {% else %}
+    <li class="prev disabled"><a>&larr; Previous</a></li>
+  {% endif %}
+
+  {% for page in (1..paginator.total_pages) %}
+    {% if page == paginator.page %}
+      <li class="disabled"><a>{{ page }}</a></li>
+    {% elsif page == 1 %}
+      <li><a href="{{ '/index.html' | prepend: site.baseurl | replace: '//', '/' }}">{{ page }}</a></li>
+    {% else %}
+      <li><a href="{{ site.paginate_path | prepend: site.baseurl | replace: '//', '/' | replace: ':num', page }}">{{ page }}</a></li>
+    {% endif %}
+  {% endfor %}
+
+  {% if paginator.next_page %}
+    <li class="next"><a href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}">Next &rarr;</a></li>
+  {% else %}
+    <li class="next disabled"><a>Next &rarr;</a></li>
+  {% endif %}
+</ul>
+</div>
+{% endif %}
 
 </div>
 
@@ -58,23 +87,6 @@
   <li class="clear"></li>
 </ul>
 </div>
-  </ul>
-  <ul class="pager">
-   {% if site.previous_page %}
-   <li class="previous">
-   {% if site.page == 2 %}
-   <a href="/" rel="bookmark">Previous Page</a>
-   {% else %}
-   <a href="/page{{ site.previous_page }}" rel="bookmark">Previous Page</a>
-   {% endif %}
-   </li>
-   {% endif %}
-   {% if site.next_page %}
-   <li class="next">
-   <a href="/page{{ site.next_page }}" rel="bookmark" style="float:right">Next Page</a>
-   </li>
-   {% endif %}
-
   </ul>
 
 </div>
