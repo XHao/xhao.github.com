@@ -55,6 +55,7 @@
   {% else %}
     <li class="next disabled"><a>Next &rarr;</a></li>
   {% endif %}
+   
 </ul>
 </div>
 {% endif %}
@@ -65,12 +66,14 @@
 <ul class="nav nav-list">
  <li class="nav-header">About me</li>
  <a href="http://weibo.com/ecnushako"><img width="160" height="160" target="_blank" src = "{{ ASSET_PATH }}/images/avatar.jpg"/></a>
+ <li class="clear"></li>
  <li class="nav-header">Blogs</li>
  <a href="http://sorafantasy.blogspot.com">空の幻想</a>
-  <li class="nav-header">Categories</li>
+ <li class="clear"></li>
+  <!--<li class="nav-header">Categories</li>
   {% assign categories_list = site.categories %}
   {% include JB/categories_list %}
- 
+ -->
   <li class="nav-header">Tags</li>
   {% assign tags_list = site.tags %}
   {% if tags_list.first[0] == null %}
@@ -83,8 +86,30 @@
   {% endfor %}
   {% endif %}
   {% assign tags_list = nil %}
+ <li class="clear"></li>
+ 
+ {% if site.JB.comments.provider == "disqus" and page.comments != false %}
 
+  <li class="dsq-widget-title nav-header">Comments</li>
+  <li class="dsq-widget">
+	<script type="text/javascript" src="http://{{ site.JB.comments.disqus.short_name }}.disqus.com/combination_widget.js?num_items=10&amp;hide_avatars=0&amp;avatar_size=24&amp;excerpt_length=25"></script>
+  </li>
+  <!--
+  <li id="recentcomments" class="dsq-widget">
+	<script type="text/javascript" src="http://{{ site.JB.comments.disqus.short_name }}.disqus.com/recent_comments_widget.js?num_items=10&amp;hide_avatars=0&amp;avatar_size=24&amp;excerpt_length=25"></script>
+  </li>
+  <li id="mostdiscussed" class="dsq-widget">
+	<script type="text/javascript" src="http://{{ site.JB.comments.disqus.short_name }}.disqus.com/most_discussed_widget.js?num_items=10&amp;hide_avatars=0&amp;avatar_size=24&amp;excerpt_length=25"></script>
+  </li>
+  <li id="topcommenters" class="dsq-widget">
+	<script type="text/javascript" src="http://{{ site.JB.comments.disqus.short_name }}.disqus.com/top_commenters_widget.js?num_items=10&amp;hide_avatars=0&amp;avatar_size=24&amp;excerpt_length=25"></script>
+  </li>
+  <li><small><a class="pull-right" href="http://disqus.com/">Powered by Disqus</a></small></li>
+  -->
   <li class="clear"></li>
+
+{% endif %}
+  
 </ul>
 </div>
   </ul>
