@@ -1,5 +1,5 @@
 ﻿# use some default setting.
-
+markdown: kramdown
 #Publish posts with a future date.
 future: false
 
