@@ -3,7 +3,7 @@ layout: post
 title: Sql Antipattern:属性
 category: sql
 excerpt: 
-tags: [sql,design,学习笔记]
+tags: [学习笔记]
 ---
 {% include JB/setup %}
 

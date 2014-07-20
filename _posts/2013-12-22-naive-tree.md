@@ -3,7 +3,7 @@ layout: post
 title: Sql Antipattern:树
 category: sql
 excerpt: 阅读SQL Antipatterns，对我而言，算是重新学习数据库设计。原作者（Bill Karwin）非常厉害，他的数据库开发经验对于开发人员来说，是很宝贵的。
-tags: [sql,design,学习笔记]
+tags: [学习笔记]
 ---
 {% include JB/setup %}
 

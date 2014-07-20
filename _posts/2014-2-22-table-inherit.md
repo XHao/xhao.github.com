@@ -3,7 +3,7 @@ layout: post
 title: 数据库设计中表的继承
 category: sql
 excerpt: 在数据库设计中遇到了类似面向对象编程的问题，如何继承父表属性......
-tags: [学习笔记, sql, design]
+tags: [学习笔记]
 ---
 {% include JB/setup %}
 

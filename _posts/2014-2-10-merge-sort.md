@@ -3,7 +3,7 @@ layout: post
 title: 归并排序
 category: algorithm
 excerpt: 基础排序算法中，归并排序是很值得学习的。不仅在于其分治思想的应用，也在于其优化空间复杂度的研究。
-tags: [算法]
+tags: [java拾遗]
 ---
 {% include JB/setup %}
 

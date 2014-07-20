@@ -3,7 +3,7 @@ layout: post
 title: Property Grid
 category: .net
 excerpt: .net项目中，针对property grid下拉框的定制
-tags: [.net, programming]
+tags: [programming]
 ---
 {% include JB/setup %}
 

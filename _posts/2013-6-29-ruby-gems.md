@@ -3,7 +3,7 @@ layout: post
 title: Ruby Gems
 category: ruby
 excerpt: DRY-不要傻傻地什么都自己做，多找找gem，会有<a href="http://rubygems.org/">意外的收获</a>。
-tags: [学习笔记, ruby]
+tags: [学习笔记]
 ---
 {% include JB/setup %}
 

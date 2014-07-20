@@ -3,7 +3,7 @@ layout: post
 title: 自动摘要研究
 category: auto excerpt
 excerpt: 摘要能够帮助人们快速浏览一篇文章，实现自动化地分析是很有意思的项目
-tags: [programming,AI]
+tags: [programming]
 ---
 {% include JB/setup %}  
 
