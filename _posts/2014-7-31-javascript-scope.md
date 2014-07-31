@@ -33,17 +33,17 @@ js是脚本语言，它是解释执行的，也就是从上到下逐行进行翻
 	echo();
 首先name="hello"是echo函数外部的局部变量，而在echo函数内部还存在一个局部变量name="hi"，根据作用域的理解，我们可以想到内部定义会隐藏外部定义，这与我们的常识相符。同时echo函数内部的name在完成定义（赋值）前，就已经被使用，这在js里也是允许的，但它应该返回undefined。所以这里的结果应该是“undefined hi”，弹2次对话框。这个例子还是比较简单的，至少我们还能一眼看出其中的关系。如果再复杂呢？如何追溯到变量的定义，会变得棘手起来。
 ####作用域链####
-js引擎在工作的时候，会维护一个scope chain的对象，是一个列表的形式。以函数为例，func在定义的时候，它的scope chain链接到func的[[scope]]属性上；func执行时，会创建一个active object并且加入到scope chain的最顶端，arguments、形参（这里形参会赋实参的值）、内部变量、内部函数都会作为这个AO的属性存在。拿一个简单的例子来说明，
+js引擎在工作的时候，会维护一个scope chain的对象，是一个列表的形式。以函数为例，func在定义的时候，它的scope chain链接到func的scope属性上；func执行时，会创建一个active object并且加入到scope chain的最顶端，arguments、形参（这里形参会赋实参的值）、内部变量、内部函数都会作为这个AO的属性存在。拿一个简单的例子来说明，
 
 	function add(num1,num2) {
     var sum = num1 + num2;
     return sum;
 	};
 	add(1,2);
-在定义函数add的时候，add[[scope]]->[scope chain]->[global AO]：意思是add函数有一个属性是scope，它包含了add对象的作用域链，而这个作用域链其实是函数被创建时的作用域范围内的对象集合（在这里只有一个global对象window）。当add(1,2)运行时，又会引入一个执行上下文（函数运行的环境），它也有一个作用域链，它的作用域链在之前的基础上会加入一个active object（this、arguments、num1、num2、sum），并且被推到链表的顶端。作用域链指明了当前函数执行时所能访问的数据，顾名思义，函数会按照这个链接的顺序一路搜索直到global对象。这就是js构造作用域链的过程。  
+在定义函数add的时候，add[scope]->[scope chain]->[global AO]：意思是add函数有一个属性是scope，它包含了add对象的作用域链，而这个作用域链其实是函数被创建时的作用域范围内的对象集合（在这里只有一个global对象window）。当add(1,2)运行时，又会引入一个执行上下文（函数运行的环境），它也有一个作用域链，它的作用域链在之前的基础上会加入一个active object（this、arguments、num1、num2、sum），并且被推到链表的顶端。作用域链指明了当前函数执行时所能访问的数据，顾名思义，函数会按照这个链接的顺序一路搜索直到global对象。这就是js构造作用域链的过程。  
 js中的with和catch会破坏普通的作用域链，额外加入一个临时对象withObject或者是catchObject到链表头部，从而影响作用域链。  
 ####闭包####
-在前面已经说到func的[[scope]]，它是在函数定义时被创建的，并且一直存在。所以闭包实际就是函数+[[scope]]，它既拥有了函数的语句，也拥有函数定义时的可访问对象的集合。在执行闭包（函数）时，它的执行上下文=[[scope]]+AO。所以会出现下面的情况，
+在前面已经说到func的[scope]，它是在函数定义时被创建的，并且一直存在。所以闭包实际就是函数+[scope]，它既拥有了函数的语句，也拥有函数定义时的可访问对象的集合。在执行闭包（函数）时，它的执行上下文=[scope]+AO。所以会出现下面的情况，
 
 	var x = 10;
  
@@ -64,7 +64,7 @@ js中的with和catch会破坏普通的作用域链，额外加入一个临时对
 	foo();
 	}
 	fo();//ReferenceError: y is not defined
-它告诉我们的意思是如果用了Function来构造函数，那么[[scope]]总是全局对象global，在这里全局对象只包含x=10。所以，如果改成
+它告诉我们的意思是如果用了Function来构造函数，那么[scope]总是全局对象global，在这里全局对象只包含x=10。所以，如果改成
 
 	var x=10;
 	function fo(){
