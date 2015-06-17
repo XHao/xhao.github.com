@@ -1,0 +1,30 @@
+---
+layout: post
+title: oracle中的rownum
+category: sql
+excerpt: 之前有人问过我这个sql的问题，当时的我太年轻（^^），回答的不准确，说白了，我以前对rownum的使用很不了解，只停留在了它的语义上。后来当我再次遇到时，便决心搞清楚其原理。
+tags: [学习笔记]
+---
+{% include JB/setup %}  
+
+### rownum ###
+在使用oracle的时候，我有一次被问到如何选择前100条记录。我想到oracle中可以使用rownum，脱口而出，rownum&lt;100呗。那如果选择的记录是某个区间呢？  
+首先第一点必须牢记，rownum不能使用">"。至于它的原因，从oracle对它的描述中，可以窥其一二  
+1.Oracle executes your query.  
+2.Oracle fetches the first row and calls it row number 1.  
+3.Have we gotten past row number meets the criteria? If no, then Oracle discards the row, If yes, then Oracle return the row.  
+4.Oracle fetches the next row and advances the row number (to 2, and then to 3, and then to 4, and so forth).  
+5.Go to step 3.  
+翻译过来就是，oracle首先取出第一行，并给这条记录赋予了一个数字“1”；如果这条记录通过了筛选，那么rownum就会自增，否则rownum被重新置为“1”。所以取出的记录中，如果没有“1”，就永远不会出现其他数字，取出的结果集中的rownum必然是存在类似的结果：“1，2，3，4，5......”，也就意味着“rownum>?”不可能出现。rownum说到底只是oracle分配给取出的行的一个编号，是一个伪字段。总结起来，oracle中的“rownum=1”，“rownum&lt;?”是可行的。如果想要实现“rownum>?”需要使用临时表，比如这样`select * from (select rownum no,id,name from student where rownum<=3 ) where no >=2`。  
+rownum是oracle在取数据时的编号，它并不参与排序。例如，`select rownum ,id,name from student order by name`取出的结果很有可能是这样  
+
+	ROWNUM ID  NAME
+	3 200003 李三
+	2 200002 王二
+    1 200001 张一
+    4 200004 赵四
+### 排序（随机选择） ###
+在sql查询中，有些时候为了获得随机的数据，需要用到一些函数，比如`MYSQL: select * from bugs order by rand() limit 1`。这种模式是对查询结果集中的每条记录分配一个随机值，通过比较这个随机值，并限定只取一个，就达到了随机选择的目的。但是类似的RAND函数不能利用索引（索引显然不可能根据一个随机值来确定），另外如果每次都对整个结果集排序，也增大了性能开销。费了老半天劲，最后只拿了一条记录，想想都觉得累。如果想避免这么复杂的过程，有一个方案是根据表的主键（如果数据表有类似的主键），通过类似`id=rand()`的方式挑选，这样就避开了对整张表排序。还有一种方案是计算总的数据行数n，随机选择0~n之间的一个值，然后用这个值作为唯一来获取随机行。  
+如果是在oracle中，可以使用sample和rownum来完成这一操作，比如，`select * from (select * from bugs sample(1) order by dbms_random.value) where rownum=1`。
+### row_number ###
+oracle里的row\_number是另一个话题。它和rownum很像，不过它是一个函数。它可以在各个分组内从1重新排序；但是必须和开窗函数一起使用，也就是说必须分组。用法：`row_number() over (partition by col1 order by col2)`表示根据col1分组，在分组内部根据col2排序，而此函数计算的值就表示每组内部排序后的顺序编号（组内连续的唯一的）。总的来讲，就是row\_number是确实存在的，可以用它来排序。
