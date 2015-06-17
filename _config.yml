@@ -1,7 +1,7 @@
 # Hexo Configuration
 ## Docs: http://hexo.io/docs/configuration.html
 ## Source: https://github.com/hexojs/hexo/
-
+disqus_shortname: xhao
 # Site
 title: Welcome to XHao's Home
 subtitle:
