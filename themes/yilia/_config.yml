@@ -2,8 +2,9 @@
 menu:
   主页: /
   所有文章: /archives
-  随笔: /tags/随笔
-
+  技术随笔: /tags/coding
+  相册: /instagram
+  
 # SubNav
 subnav:
   facebook: "https://zh-cn.facebook.com/people/%E8%B0%A2%E6%98%8A/1391929201"
@@ -52,4 +53,4 @@ friends:
 #不开启——
 #aboutme: false
 #开启——
-aboutme: 在魔都生活的码农
+aboutme: 80后，常年生活在天朝魔都，是一个有理想的码农。
