@@ -2,19 +2,20 @@
 menu:
   主页: /
   所有文章: /archives
-  技术随笔: /tags/coding
-  相册: /instagram
-  
+  # 随笔: /tags/随笔
+
 # SubNav
 subnav:
-  facebook: "https://zh-cn.facebook.com/people/%E8%B0%A2%E6%98%8A/1391929201"
-  github: "https://github.com/XHao"
-  linkedin: "https://cn.linkedin.com/pub/%E6%98%8A-%E8%B0%A2/30/70a/245"
-  zhihu: "http://www.zhihu.com/people/hao-xie-88"
+  github: "#"
+  weibo: "#"
+  rss: "#"
+  zhihu: "#"
   #douban: "#"
   #mail: "#"
+  #facebook: "#"
   #google: "#"
   #twitter: "#"
+  #linkedin: "#"
 
 rss: /atom.xml
 
@@ -31,15 +32,15 @@ open_in_new: false
 
 # Miscellaneous
 google_analytics: ''
-favicon: /img/favicon.ico
+favicon: /favicon.png
 
 #你的头像url
-avatar: /img/avatar.jpeg
+avatar: 
 #是否开启分享
 share: true
 #是否开启多说评论，填写你在多说申请的项目名称 duoshuo: duoshuo-key
 #若使用disqus，请在博客config文件中填写disqus_shortname，并关闭多说评论
-duoshuo: false
+duoshuo: true
 #是否开启云标签
 tagcloud: true
 
@@ -48,9 +49,15 @@ tagcloud: true
 #friends: false
 #开启——
 friends:
+  奥巴马的博客: http://localhost:4000/
+  卡卡的美丽传说: http://localhost:4000/
+  本泽马的博客: http://localhost:4000/
+  吉格斯的博客: http://localhost:4000/
+  习大大大不同: http://localhost:4000/
+  托蒂的博客: http://localhost:4000/
 
 #是否开启“关于我”。
 #不开启——
 #aboutme: false
 #开启——
-aboutme: 80后，常年生活在天朝魔都，是一个有理想的码农。
+aboutme: 我是谁，我从哪里来，我到哪里去？我就是我，是颜色不一样的吃货…
