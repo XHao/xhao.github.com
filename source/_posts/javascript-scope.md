@@ -1,7 +1,7 @@
 layout: post
 title: javascript作用域
 date: 2014-7-31
-tags: [javascript,coding]
+tags: [javascript]
 
 ---
 javascript的作用域和类C语言相比，有点特殊，对于初学者，非常容易搞错。因为你头脑中要永远牢记这一句话**javascript中的函数运行在它们被定义的作用域里，而不是它们被执行的作用域里**

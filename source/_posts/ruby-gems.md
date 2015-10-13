@@ -1,7 +1,7 @@
 layout: post
 title: Ruby Gems
 date: 2013-6-19
-tags: [ruby,coding]
+tags: [ruby]
 
 ---
 ruby的gem本质上是一个软件包，从这里[http://rubygems.org/](http://rubygems.org/)可以了解更多的信息。通过安装可以获得很多额外的功能。它的功能，我觉得很像nodejs的npm，java的maven，可以很方便地管理各种开源的软件，便于大家下载使用。如何建一个gem包，步骤也不复杂。（详情请戳这里[http://guides.rubygems.org/make-your-own-gem/](http://guides.rubygems.org/make-your-own-gem/)）

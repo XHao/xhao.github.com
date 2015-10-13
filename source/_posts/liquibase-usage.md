@@ -1,7 +1,7 @@
 layout: post
 title: use liquibase
 date: 2014-5-13
-tags: [liquibase,java]
+tags: [liquibase,sql]
 
 ---
 <a href="http://www.liquibase.org/">liquibase</a>是一个开源的数据库迁移工具，它和rails世界中的migration比较接近，这对大型的j2ee项目开发来说，可谓是优质的辅助。对于一个健壮的j2ee平台而言，稳定的数据库系统是不可或缺的。之前在项目中通过人工的方式审核，并且有专门的数据导入导出环境。但是这样有很多不足，比如：对于一个数据库，我们无法知道哪些脚本执行过，我们也无法搞清楚当前数据库所处的版本（对应于代码流）。liquibase正好提供了一个解决思路。为了应对搭建数据库的不便，我们目前采用了InitialDB+liquibase的机制，这将极大地方便我们在不同的开发产品线之间切换。   

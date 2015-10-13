@@ -1,7 +1,7 @@
 layout: post
 title: java8中使用interface的default方法
 date: 2015-7-7
-tags: [java,coding]
+tags: [java]
 
 ---
 最近在做soa框架时候,遇到了一个有趣的地方.稍微描述下这个场景:有一个interface Hello,带default实现的方法hello;在没有任何具体类的前提下,直接调用这个Hello.hello().在一开始,我就觉得这个实现会很有趣.但是问题来了,调用实例方法是需要有实例的,而interface并不能构造一个实例.开始我想的是通过interface信息动态创建类,之后在实例化出一个实例来调用hello().但慢慢发现,动态生成字节码不是一件容易的事.后来在研究的过程中(google...),无意发现了后面要说的“java magic”.

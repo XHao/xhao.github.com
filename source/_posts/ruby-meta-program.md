@@ -1,7 +1,7 @@
 layout: post
 title: Metaprogramming Ruby
 date: 2013-07-14
-tags: [ruby,coding]
+tags: [ruby]
 
 ---
 第一次接触ruby的时候，我对于很多“黑魔法”的事情感到疑惑。相比于编译型语言，动态语言太灵活了。不过深入了解之后，我对于ruby或者松本行弘的一些想法也蛮佩服的。比如open class、完全的面向对象、纤程以及实现继承与接口继承等，印象很深刻。虽然ruby的性能经常被人诟病，但平时确实可以拿来玩玩~~

@@ -1,7 +1,7 @@
 layout: post
 title: ruby的闭包
 date: 2013-7-15
-tags: [ruby,coding]
+tags: [ruby]
 
 ---
 闭包这个概念，我最早是从javascript中了解到的。这个概念逐渐被所有的主流语言所接受（包括lambda）。而ruby中的闭包概念也差不太多，那么就先从ruby的代码块说起......

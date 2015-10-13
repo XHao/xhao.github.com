@@ -1,6 +1,6 @@
 layout: post
 title: Property Grid
-tags: [.net,coding]
+tags: [.net]
 date: 2013-12-11
 
 ---

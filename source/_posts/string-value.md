@@ -1,7 +1,7 @@
 layout: post
 title: 关于反射修改String
 date: 2014-2-17
-tags: [java,coding]
+tags: [java]
 
 ---
 能改变string的值？想想只能用反射了。不过我想说的并不只是这些。首先我们要明确的是，通常情况下，java里的String值是不可变的。  
