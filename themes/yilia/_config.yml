@@ -9,10 +9,10 @@ menu:
   
 # SubNav
 subnav:
-  facebook: "https://zh-cn.facebook.com/people/%E8%B0%A2%E6%98%8A/1391929201"
   github: "https://github.com/XHao"
   linkedin: "https://cn.linkedin.com/pub/%E6%98%8A-%E8%B0%A2/30/70a/245"
-  zhihu: "http://www.zhihu.com/people/hao-xie-88"
+  #rss: "/atom"
+  #zhihu: "http://www.zhihu.com/people/hao-xie-88"
   #douban: "#"
   #mail: "#"
   #google: "#"
