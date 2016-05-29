@@ -63,6 +63,12 @@ pagination_dir: page
 # Extensions
 ## Plugins: http://hexo.io/plugins/
 ## Themes: http://hexo.io/themes/
+
+feed:
+  type: atom
+  path: atom.xml
+  limit: 20
+
 theme: yilia
 
 # Deployment

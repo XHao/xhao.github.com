@@ -11,10 +11,10 @@ menu:
 subnav:
   github: "https://github.com/XHao"
   linkedin: "https://cn.linkedin.com/pub/%E6%98%8A-%E8%B0%A2/30/70a/245"
-  #rss: "/atom"
+  rss: "/atom.xml"
   #zhihu: "http://www.zhihu.com/people/hao-xie-88"
   #douban: "#"
-  #mail: "#"
+  mail: "mailto:sei_xh2006@126.com"
   #google: "#"
   #twitter: "#"
 
@@ -55,4 +55,4 @@ friends:
 #不开启——
 #aboutme: false
 #开启——
-aboutme: 80后，常年生活在天朝魔都，是一个有理想的码农。
+aboutme: 我是一个生活在魔都的工程师，平时喜欢用java、node、golang写点小程序。兴趣广泛，最近在玩docker......生活中有时候会玩一玩暴雪的游戏，看看历史、小说书，旅游、运动，享受生活
