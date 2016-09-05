@@ -38,17 +38,17 @@ var Instagram = (function(){
 		$("a[rel=example_group]").fancybox();
 	}
 
-	var replacer = function(str){
-		if(str.indexOf("outbound-distilleryimage") >= 0 ){
-			var cdnNum = str.match(/outbound-distilleryimage([\s\S]*?)\//)[1];
-			var arr = str.split("/");
-			return "http://distilleryimage"+cdnNum+".ak.instagram.com/"+arr[arr.length-1];
-		}else{
-			var url = "http://photos-g.ak.instagram.com/hphotos-ak-xpf1/";
-			var arr = str.split("/");
-			return url+arr[arr.length-1];
-		}
-	}
+	//var replacer = function(str){
+	//	if(str.indexOf("outbound-distilleryimage") >= 0 ){
+	//		var cdnNum = str.match(/outbound-distilleryimage([\s\S]*?)\//)[1];
+	//		var arr = str.split("/");
+	//		return "http://distilleryimage"+cdnNum+".ak.instagram.com/"+arr[arr.length-1];
+	//	}else{
+	//		var url = "http://photos-g.ak.instagram.com/hphotos-ak-xpf1/";
+	//		var arr = str.split("/");
+	//		return url+arr[arr.length-1];
+	//	}
+	//}
 
 	var ctrler = function(data){
 		var imgObj = {};
@@ -56,8 +56,8 @@ var Instagram = (function(){
 			var d = new Date(data[i].created_time*1000);
 			var y = d.getFullYear();
 			var m = d.getMonth()+1;
-			var src = replacer(data[i].images.low_resolution.url);
-			var bigSrc = replacer(data[i].images.standard_resolution.url);
+			var src = data[i].images.low_resolution.url;
+			var bigSrc = data[i].images.standard_resolution.url;
 			var text = data[i].caption ? data[i].caption.text : ''; // data[i].caption 有可能为 null
 			var key = y+"-"+m;
 			if(imgObj[key]){
