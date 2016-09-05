@@ -78,7 +78,7 @@ var Instagram = (function(){
 	}
 
 	var getList = function(url){
-		$(".open-ins").html("图片来自instagram，正在加载中…");
+		$(".open-ins").html("照片来自instagram，拼命加载中......");
 		$.ajax({
 			url: url,
 			type:"GET",
@@ -90,7 +90,7 @@ var Instagram = (function(){
 					if(next){
 						getList(next);
 					}else{
-						$(".open-ins").html("图片来自instagram，点此访问");
+						$(".open-ins").html("点此访问我的Instagram");
 						ctrler(_collection);
 					}
 				}else{
@@ -121,15 +121,13 @@ var Instagram = (function(){
 		init:function(){
 			//getList("https://api.instagram.com/v1/users/438522285/media/recent/?access_token=438522285.2082eef.ead70f432f444a2e8b1b341617637bf6&count=100");
 			//var insid = $(".instagram").attr("data-client-id");
-            var userId = $(".instagram").attr("data-user-id");
-            var access_token = $(".instagram").attr("access-token");
 			//if(!insid){
 			//	alert("Didn't set your instagram client_id.\nPlease see the info on the console of your brower.");
 			//	console.log("Please open 'http://instagram.com/developer/clients/manage/' to get your client-id.");
 			//	return;
 		//	}
 //			getList("https://api.instagram.com/v1/users/"+ userId +"/media/recent/?client_id="+insid+"&count=100");
-getList("https://api.instagram.com/v1/users/2112177112/media/recent/?access_token=" + access_token + "&count=100");			
+getList("https://api.instagram.com/v1/users/2112177112/media/recent/?access_token=2112177112.552ad6d.f4914542992e4afdae06bf92e16425a2&count=100");			
 			bind();
 		}
 	}
