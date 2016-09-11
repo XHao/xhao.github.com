@@ -3,7 +3,6 @@ menu:
   主页: /
   所有文章: /archives
   Java拾遗: /tags/java
-  JS: /tags/javascript
   杂记: /tags/other
   相册: /instagram
   
@@ -55,4 +54,4 @@ friends:
 #不开启——
 #aboutme: false
 #开启——
-aboutme: 我是一个生活在魔都的工程师，平时喜欢用java、node、golang写点小程序。兴趣广泛，最近在玩docker......生活中有时候会玩一玩暴雪的游戏，看看历史、小说书，旅游、运动，享受生活
+aboutme: 我是一个生活工作在魔都的工程师，喜欢开发，兴趣广泛，目前就职于一家O2O互联网公司。作为一个工程师，热爱自己的工作，对于技术的追求，永远on the road
