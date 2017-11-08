@@ -6,3 +6,4 @@ node_modules/
 public/
 .deploy*/
 CNAME
+package-lock.json
