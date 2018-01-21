@@ -22,7 +22,8 @@ tags: [liquibase,sql]
 	</databaseChangeLog>
 ```
 
-我们在这个例子里新建了一张表T\_BCP\_FEE\_TYPE\_NAME，有3个列分别是ID、FEE\_TYPE、FEE\_NAME。它的基本元素是changeSet，代表着数据库的一次修改。liquibase通常会将每个changeSet放在一个transaction中执行，所以比较好的做法是每个changeSet尽量只含有一个数据库结构的改动。  
+我们在这个例子里新建了一张表T\_BCP\_FEE\_TYPE\_NAME，有3个列分别是ID、FEE\_TYPE、FEE\_NAME。它的基本元素是changeSet，代表着数据库的一次修改。liquibase通常会将每个changeSet放在一个transaction中执行，所以比较好的做法是每个changeSet尽量只含有一个数据库结构的改动。
+
 liquibase还支持rollback，只需要在changeSet中加入rollback标签（某些change，liquibase可以自动rollback）。前面的例子可以改成
 
 ```xml	
@@ -43,6 +44,7 @@ liquibase还支持rollback，只需要在changeSet中加入rollback标签（某�
 ```
 
 这里面用了3种方式来写，都是可行的。加入了rollback的机制，从某种意义上讲，使得DB的迁移也有了版本的概念（不一定正确，但应该便于理解）。我们可以选择rollback到某一点，也可以再重新update到最新的数据库版本。以下是liquibase支持的几种“Roll Back To” Modes.
+
 <table border="1">
 	<tbody>
 		<tr><th>Modes</th><th>Description</th></tr>
@@ -51,6 +53,7 @@ liquibase还支持rollback，只需要在changeSet中加入rollback标签（某�
 		<tr><td>Date</td><td>You can specify the date to roll back to</td></tr>		
 	</tbody>
 </table>
+
 下面要提的这个，我觉得也有版本的意味——Diff。在写代码的时候，我们经常会比较不同版本之间的代码。考虑到数据库的开发，liquibase也支持了这种compare。如果使用command，就是这样
 	
 	liquibase.sh --driver=oracle.jdbc.OracleDriver \
@@ -73,5 +76,6 @@ liquibase通过diff的产出分为报表和changeLog这2种形式，前者便于
 - sequences [DEFAULT]
 - data    
 
-*tip：我发现这个操作也是很消耗内存的，建议在执行前，手动设置jvm heap的大小。*   
+*tip：我发现这个操作也是很消耗内存的，建议在执行前，手动设置jvm heap的大小。*
+
 总而言之，liquibase使数据库的开发变得像代码的版本管理。它最大的好处是方便了数据库的迁移和管理，并且还支持了command、ant、maven等多种格式，非常适合在java世界使用。正如我开头所说，它就是java世界的migration（rails）工具。

@@ -59,4 +59,3 @@ public class ThriftGenPlugin extends AbstractMojo {
 因为这个插件是用来将java代码转化为thrift的，所以插件本身需要读取当前转化project的代码。基于maven的[classloader机制](http://maven.apache.org/guides/mini/guide-maven-classloading.html)，classloader之间是相互隔离的。换句话说，插件运行期的classloader是不能天然使用project中代码的，所以需要一些手段了。目前我想到的是利用反射机制。首先，我利用MavenProject这个对象，获取它的classpath（其实就是本地maven仓库，jar包的地址），然后通过`URLClassLoader`的`addURL`这个方法，将jar包都添加到当前的`ClassLoader.getSystemClassLoader()`中来。完成这2步，就能达到读取project的目的。
 
 `execute`方法就是入口，在这里可以抛出2种exception，`MojoExecutionException`和`MojoFailureException`，它们的含义也不完全相同，前者是unexpected的异常，后者是执行中的异常（包括配置错误等等）。此外，插件还可以有log，使用方法是`getLog().debug("xxx")`；maven使用了自己的ioc框架，具体的配置都在${MAVEN_HOME}/conf下面能看到，log用的是slf4j。
-

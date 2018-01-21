@@ -4,7 +4,6 @@ date: 2015-7-25
 tags: [java]
 
 ---
-
 <!--more-->
 ### hashmap
 java里的hashmap是单线程的，一般在多线程情况下，我们应该使用ConcurrentHashMap。因为在并发条件下，HashMap的误用可能不仅导致数据不一致性的问题，还有可能引发不可置信的死循环。当然，javadoc里已经明确告诫大家了：

@@ -1,14 +1,14 @@
 layout: post
 title: java中的getHostname 
-tags: java
+tags: [java, linux]
 date: 2016-04-16
 
 ---
-有时候在linux服务器上，java程序启动时会出现unknown host name这类问题。解决这类问题的关键是，搞清楚jdk获取ip和hostname的方式以及linux机器的ip、hostname（这里经常会涉及到一些命令，诸如：hostnamectl、nslookup、ifconfig等）。
+有时候在linux服务器上，java程序启动时会出现`unknown host name`的问题。解决这类问题的关键是，搞清楚jdk获取ip和hostname的方式以及linux机器的ip、hostname（这里经常会涉及到一些命令，诸如：hostnamectl、nslookup、dig、ifconfig等）。
 <!--more-->
-首先我们先看下几个常用的方法：
+下面这个是大家最常用的：
 
-* `InetAddress.getLocalHost`: 这个是最常用的，jdk的文档对它的描述是
+### 通过`InetAddress.getLocalHost`来获得Address
 
 ```
 Returns the address of the local host. This is achieved by retrieving the name of the host from the system, then resolving that name into an InetAddress.
@@ -16,7 +16,9 @@ Returns the address of the local host. This is achieved by retrieving the name o
 Note: The resolved address may be cached for a short period of time.
 ```
 
-它的实现分2个部分，第一个动作是`impl.getLocalHostName()`，native方法，在linux内核上是通过调用内核函数`gethostname`完成。而hostname是和下面有关的
+它的实现分3个部分：
+
+1.  先是`impl.getLocalHostName()`取得hostname。这是一个native方法，在linux内核上是通过调用内核函数`gethostname`完成。而hostname是和下面有关的
 
 ```bash
 [hao.xie@hao-xie-vm ~]$ hostname #hostname返回当前值
@@ -27,9 +29,10 @@ hao-xie-vm
 # Created by anaconda
 ```
 
-完成这一步之后，jdk又去查了缓存的localhost信息（5s有效的cache），如果没有缓存才开始下一步：取address。怎么取得ip呢？问别人，问dns，也就是别人眼中的ip。
+2. 接着，jdk又去查了缓存的localhost信息（5s有效的cache），如果没有缓存才开始取address
+3. 取Address的方式是`InetAddress.getAddressesFromNameService`，按字面意思就是向dns来反向查询自己
 
-* `InetAddress.getLocalHost.getHostName`：jdk的文档是
+### `InetAddress.getLocalHost.getHostName`获取hostname
 
 ```
 Gets the host name for this IP address.
@@ -39,13 +42,14 @@ If this InetAddress was created with a host name, this host name will be remembe
 
 描述很清楚，就是再通过ip反向来查hostname，原因和上面一样。
 
-* 我遇到过的问题
+### 我遇到过的问题
 
 我之前在服务器上发现hostname返回的是`A`，但是`InetAddress.getLocalHost.getHostName`返回异常`unknown host name : host name B `。原因就是2次dns的结果差异造成`hostname A -> ip1；ip1 -> B`这种尴尬的事情。这个时候就需要nslookup工具来检查，最后在dns服务器上进行修改了。
 
-这些是对linux上ip的总结，主要是摸索linux配置及各种命令的过程。线上的一切bug都是原因，重要的是挖掘错误的原因。
+### 如何在java代码中获取本机ip（非127.0.0.1）
 
-PS:最后放上一段获取ip的方法
+有一些推荐的方式，比如通过遍历网卡来选择
+
 ```java
 public static InetAddress getLocalHostLANAddress() throws UnknownHostException, SocketException {
 		try {
@@ -84,4 +88,41 @@ public static InetAddress getLocalHostLANAddress() throws UnknownHostException, 
 			throw unknownHostException;
 		}
 	}
+```
+
+或者通过建立tcp socket来反向获取本机ip
+
+```java
+public static String trickyIp() throws IOException {
+    try (final Socket socket = new Socket()) {
+        socket.connect(new InetSocketAddress("www.google.com", 80));
+        return socket.getLocalAddress().getHostAddress();
+    }
+}
+```
+
+### 在java代码中获得[hostname](/2016/09/hostname)
+
+`hostname(1)`应该是唯一的选择（错误的网络环境配置导致上面的例子），所以在java代码中就变成了如何调用系统调用了，通过jni或者jna都是可以的，比如
+
+```java
+// 通过jna
+interface CLibrary extends Library {
+    CLibrary INSTANCE = (CLibrary) Native.loadLibrary("c", CLibrary.class);
+
+    int gethostname(byte[] hostname, int bufferSize);
+}
+
+public static String hostname() throws UnknownHostException {
+        if (Platform.isWindows()) {
+            return Kernel32Util.getComputerName();
+        } else {
+            byte[] hostnameBuffer = new byte[255];
+            int result = CLibrary.INSTANCE.gethostname(hostnameBuffer, hostnameBuffer.length);
+            if (result != 0) {
+                return InetAddress.getLocalHost().getHostName();
+            }
+            return Native.toString(hostnameBuffer);
+        }
+    }
 ```

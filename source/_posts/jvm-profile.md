@@ -1,6 +1,6 @@
 layout: post
 title: 使用java profile 
-tags: java
+tags: [java, performance]
 date: 2017-11-08
 
 ---
@@ -57,7 +57,7 @@ Java events:
 
 `-t pid`也很常用，它是根据线程来sample的，这样对我们后续的分析会带来好处
 
-#### 限制条件
+### 限制条件
 
 1. 工具最大的限制大都和`perf`[相关](https://github.com/jvm-profiling-tools/async-profiler#restrictionslimitations) 
 

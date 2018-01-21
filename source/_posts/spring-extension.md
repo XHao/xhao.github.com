@@ -4,7 +4,7 @@ date: 2015-8-29
 tags: [spring,java]
 
 ---
-spring框架在java世界应用广泛，IOC、AOP，包括最近的spring boot等，体系庞大。平时spring应用很少，也没特别的经验要说。但最近在适配我们的框架和spring方面，也摸索了几天，有了一点心得。PS:所有的适配都是基于spring框架对外开放的钩子...今天要说的比较简单，是关于xml的，虽然后续有涉及到spring机制，以后再说~
+spring框架在java世界应用广泛，IOC、AOP，包括最近的spring boot等，体系庞大。平时spring应用很少，也没特别的经验要说。但在适配自己的框架和spring方面，也摸索了几天，有了一点心得。所有的适配都是基于spring框架对外开放的钩子...今天要说的比较简单，是关于xml的
 <!--more-->
 开发参考了[spring doc](http://docs.spring.io/autorepo/docs/spring/4.2.x/spring-framework-reference/html/)
 ### xml extension

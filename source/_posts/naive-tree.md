@@ -6,7 +6,7 @@ date: 2013-12-22
 ---
 最近看到了一本好书《SQL Antipatterns》，作者（Bill Karwin）非常厉害，他在关系型数据库上的开发经验非常丰富，总结出了sql设计时经常陷入的误区（反模式）。这本书的在线版本：<a href="http://edu.ercess.co.in/ebooks/SQL/SQL-Antipatterns-Avoiding-the-Pitfalls-of-Database-Programming.pdf">SQL Antipatterns</a>，非常值得一读！！！
 <!--more-->
-作为一个专业码农，当我进大学的第一学期，就被它给坑了（好烦的数据结构），但好歹这么多年的积（che）累（dan），勉强是能应付了。但是在数据库设计方面，我经验更（hao）加（xiang）少（mei）了（you），就直接拿书中的案例来研究吧。比如，常见的employee表：
+现在有一张employee表：
 
 ```sql
 	create table employee (

@@ -1,6 +1,6 @@
 layout: post
-title: java性能监控
-tags: [java,性能]
+title: jdk提供的工具类
+tags: [java, performance]
 date: 2015-09-05
 
 ---
