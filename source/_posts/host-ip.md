@@ -4,10 +4,10 @@ tags: [java, linux]
 date: 2016-04-16
 
 ---
-有时候在linux服务器上，java程序启动时会出现`unknown host name`的问题。解决这类问题的关键是，搞清楚jdk获取ip和hostname的方式以及linux机器的ip、hostname（这里经常会涉及到一些命令，诸如：hostnamectl、nslookup、dig、ifconfig等）。
-<!--more-->
-下面这个是大家最常用的：
+在linux服务器上，java程序有时会遇到`unknown host name`的问题。通过解决这些问题，我发现搞清楚jdk获取ip和hostname的方式以及linux机器的真实ip、hostname是关键。
 
+linux上有很多常用命令会涉及，诸如：hostnamectl、nslookup、dig、ifconfig......下面我们先来看jdk如何获取hostname的
+<!--more-->
 ### 通过`InetAddress.getLocalHost`来获得Address
 
 ```
