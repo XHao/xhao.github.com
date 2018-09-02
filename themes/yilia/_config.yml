@@ -2,9 +2,7 @@
 menu:
   主页: /
   所有文章: /archives
-  Java拾遗: /tags/java
-  Linux: /tags/linux
-  性能实验室: /tags/performance
+  #Java拾遗: /tags/java
   相册: /instagram
   
 # SubNav
@@ -23,7 +21,7 @@ rss: /atom.xml
 # Content
 excerpt_link: more
 fancybox: true
-mathjax: true
+mathjax: false
 
 # 是否开启动画效果
 animate: true
@@ -55,4 +53,4 @@ friends:
 #不开启——
 #aboutme: false
 #开启——
-aboutme: 生活在魔都的一枚攻城狮
+aboutme: 生活在上海的工程师
