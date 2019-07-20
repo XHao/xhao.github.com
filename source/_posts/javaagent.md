@@ -11,7 +11,9 @@ java agent的原理网上也有很多介绍，主要是利用了[JVMTI](https://
 * 启动时进行加载：-javaagent:myagent.jar
 * 或者动态attach
 
-如果是attach的话，还需要依赖jdk目录下的`/lib/tools.jar`，通常做法是找到java home变量，然后去加载tools.jar。针对2种不同场景，java agent的触发点略有不同。
+如果是动态attach的话，[一般](#jattach)还需要依赖jdk目录下的`/lib/tools.jar`，做法是找到java home变量，然后去加载tools.jar。
+
+针对2种不同场景，java agent的触发点略有不同。
 
 ```java
 // 启动时
@@ -27,7 +29,7 @@ public static void agentmain(String args, Instrumentation instrumentation) {};
 * 当加载一个class文件时，会进行拦截，对字节码做修改。
 * 还可以在运行期对已加载类的字节码做变更
 
-因为Java里面的类、对象通常和classloader有关系，不同的classloader可能会加载同一个类，所以常常会混淆java agent里面的`ClassFileTransformer`在应用时，会不会冲突。实际上呢，java agent总是由AppClassLoader进行记载的，`premain`和`agentmain`也都是在AppClassLoader里触发的。但是它修改类的效果，却是全局的，和classloader无关。我的理解是，这个`ClassFileTransformer`只是输出一堆字节码、二进制文件，并不涉及到类加载的问题，所以2者不冲突。不过要注意的是，如果调用`retransformClasses(Class<?>... classes)`修改已经加载过的类，这个`class`对象不要用`Class.forname("A")`，因为`Class`对象是在当前AppClassLoader里创建的，所以`ClassFileTransformer`也只能修改它，对于其他ClassLoader加载的`A`，并不起作用。这个时候需要利用`Instrumentation`对象，简单点可以先`getAllLoadedClasses()`获得类集合，再通过比较class name的方式进行过滤，然后再retransform。又或者你将`Instrumentation`对象保存起来，将来需要用到的时候，再拿出来使用等等。花样很多，可以自由组合！
+因为Java里面的类、对象通常和classloader有关系，不同的classloader可以加载同一个类，所以会对`ClassFileTransformer`的归属有疑问？实际上呢，java agent总是由AppClassLoader进行加载的，`premain`和`agentmain`也都是在AppClassLoader里触发的，但是它修改类的效果可以超出当前的classloader。我的理解是，这个`ClassFileTransformer`只是输出一堆字节码、二进制文件，并不涉及到类加载的问题，所以2者不冲突。不过要注意的是，如果调用`retransformClasses(Class<?>... classes)`修改已经加载过的类，这个`class`对象不要用`Class.forname("A")`，因为`Class`对象是在当前AppClassLoader里创建的，所以`ClassFileTransformer`只会影响AppClassLoader里的`A`，对于其他ClassLoader加载的`A`，并不起作用。这个时候需要利用`Instrumentation`对象，简单点可以先`getAllLoadedClasses()`获得所有类集合，再通过比较class name的方式进行过滤，然后再retransform。又或者你将`Instrumentation`对象保存起来，将来需要用到的时候，再拿出来使用等等。花样很多，可以自由组合！
 
 还有一个需要注意的是[JEP 159: Enhanced Class Redefinition](http://openjdk.java.net/jeps/159)。修改已经加载过的类是有限制条件的，虽然有jep在追踪这个问题，但感觉openjdk对这个需求热情不高，短时间内怕是不会有进展（它不在任何已经规划的发行版feature中）
 
@@ -57,3 +59,7 @@ public static void agentmain(String args, Instrumentation instrumentation) {};
 * 获取所有已经初始化过的类（执行过 clinit 方法，是上面的一个子集）
 * 将某个jar加入到bootstrap classpath里作为高优先级被bootstrapClassloader加载
 * 将某个jar加入到classpath里供AppClassloader去加载
+
+---
+
+<a name="jattach" href="https://github.com/apangin/jattach">apangin/jattach</a>可以不依赖jdk完成load agent功能
