@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Sql多值属性的处理 | Welcome to XHao&#39;s Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="在日常生活中会遇到一种场景——多值属性，比如电话号码，手机、工作的、家庭的、小灵通、IP电话…一个人可能拥有其中一种或者每一种。如果将这些值存储在一列中，势必要用到分隔符，这会导致sql操作的复杂、也无法确保数据的正确性。如果用多列存储，不优雅。因为每次查询一个人的电话时，需要扫描每一列；每当增加或者删除一种通讯工具时，需要重构整张表；数据库中可能存在更多的null列。不过，当我们在设计数据库时，">
+<meta name="keywords" content="sql">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Sql多值属性的处理">
 <meta property="og:url" content="https://xhao.io/2014/01/multicolumn-attributes/index.html">
-<meta property="og:site_name" content="Welcome to XHao's Home">
+<meta property="og:site_name" content="Welcome to XHao&#39;s Home">
 <meta property="og:description" content="在日常生活中会遇到一种场景——多值属性，比如电话号码，手机、工作的、家庭的、小灵通、IP电话…一个人可能拥有其中一种或者每一种。如果将这些值存储在一列中，势必要用到分隔符，这会导致sql操作的复杂、也无法确保数据的正确性。如果用多列存储，不优雅。因为每次查询一个人的电话时，需要扫描每一列；每当增加或者删除一种通讯工具时，需要重构整张表；数据库中可能存在更多的null列。不过，当我们在设计数据库时，">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2020-07-23T15:25:07.500Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Sql多值属性的处理">
@@ -22,9 +24,9 @@
   
     <link rel="icon" href="/img/favicon.ico">
   
-  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
 </head>
-
+</html>
 <body>
   <div id="container">
     <div class="left-col">
@@ -215,7 +217,7 @@
       
         <p>在日常生活中会遇到一种场景——多值属性，比如电话号码，手机、工作的、家庭的、小灵通、IP电话…一个人可能拥有其中一种或者每一种。如果将这些值<strong>存储在一列</strong>中，势必要用到分隔符，这会导致sql操作的复杂、也无法确保数据的正确性。如果用<strong>多列存储</strong>，不优雅。因为每次查询一个人的电话时，需要扫描每一列；每当增加或者删除一种通讯工具时，需要重构整张表；数据库中可能存在更多的null列。不过，当我们在设计数据库时，所以如果想采用多列存储某种类似的属性，首先要保证分开的这些列是可区分的，且列的数目是固定的。 </p>
 <p>但是还有更好的办法是创建另一张新表，将多列属性转化为多行存储。（这个例子可能不是最恰当的）</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator"><span class="keyword">create</span> <span class="keyword">table</span> communication (	</span><br><span class="line">	employee_id <span class="built_in">int</span>,</span><br><span class="line">	tag <span class="built_in">varchar</span>(<span class="number">20</span>),</span><br><span class="line">	<span class="keyword">content</span> <span class="built_in">varchar</span>(<span class="number">20</span>),</span><br><span class="line">	primary <span class="keyword">key</span> (employee_id, tag),</span><br><span class="line">	foreign <span class="keyword">key</span> (employee_id) <span class="keyword">references</span> employee (<span class="keyword">id</span>)</span><br><span class="line">)</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> communication (	</span><br><span class="line">	employee_id <span class="built_in">int</span>,</span><br><span class="line">	tag <span class="built_in">varchar</span>(<span class="number">20</span>),</span><br><span class="line">	<span class="keyword">content</span> <span class="built_in">varchar</span>(<span class="number">20</span>),</span><br><span class="line">	primary <span class="keyword">key</span> (employee_id, tag),</span><br><span class="line">	<span class="keyword">foreign</span> <span class="keyword">key</span> (employee_id) <span class="keyword">references</span> employee (<span class="keyword">id</span>)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
 <p>利用标签将不同的值分在多行存储起来，多列——&gt;多行；同时又有外键关联，将人和信息联系在一起；同时查询、更新、删除都变得简单；支持或取消对某种通讯工具的支持（增加或删除某种通讯工具），也同样不需要重构数据库，只需要来个遍历，删除相应的行即可。  </p>
 <p>PS:当然了，这里所提到的<strong>多列属性是违反第一范式的设计</strong>。在一张表中，多个列拥有了相同的值域，这不能满足关系数据库的基础。关系中的每一行（每一条记录）都是从不同数据域上选择一个值而形成的组合。</p>
 
@@ -286,7 +288,7 @@
 
     </div>
     
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
 
 
 <script>
@@ -302,8 +304,8 @@
 		open_in_new: false
 	}
 </script>
-<script src="//7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
-<script src="/js/main.js" type="text/javascript"></script>
+<script src="//7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
 
 
 

@@ -1,33 +1,32 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>java中容易忽略的问题（一） | Welcome to XHao&#39;s Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="hashmapjava里的hashmap是单线程的，一般在多线程情况下，我们应该使用ConcurrentHashMap。因为在并发条件下，HashMap的误用可能不仅导致数据不一致性的问题，还有可能引发不可置信的死循环。当然，javadoc里已经明确告诫大家了：
-1Note that this implementation is not synchronized. If multiple thre">
+  <meta name="description" content="hashmapjava里的hashmap是单线程的，一般在多线程情况下，我们应该使用ConcurrentHashMap。因为在并发条件下，HashMap的误用可能不仅导致数据不一致性的问题，还有可能引发不可置信的死循环。当然，javadoc里已经明确告诫大家了： 1Note that this implementation is not synchronized. If multiple thr">
+<meta name="keywords" content="java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="java中容易忽略的问题（一）">
 <meta property="og:url" content="https://xhao.io/2015/07/java-misuse/index.html">
-<meta property="og:site_name" content="Welcome to XHao's Home">
-<meta property="og:description" content="hashmapjava里的hashmap是单线程的，一般在多线程情况下，我们应该使用ConcurrentHashMap。因为在并发条件下，HashMap的误用可能不仅导致数据不一致性的问题，还有可能引发不可置信的死循环。当然，javadoc里已经明确告诫大家了：
-1Note that this implementation is not synchronized. If multiple thre">
+<meta property="og:site_name" content="Welcome to XHao&#39;s Home">
+<meta property="og:description" content="hashmapjava里的hashmap是单线程的，一般在多线程情况下，我们应该使用ConcurrentHashMap。因为在并发条件下，HashMap的误用可能不仅导致数据不一致性的问题，还有可能引发不可置信的死循环。当然，javadoc里已经明确告诫大家了： 1Note that this implementation is not synchronized. If multiple thr">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2020-07-23T15:25:07.500Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java中容易忽略的问题（一）">
-<meta name="twitter:description" content="hashmapjava里的hashmap是单线程的，一般在多线程情况下，我们应该使用ConcurrentHashMap。因为在并发条件下，HashMap的误用可能不仅导致数据不一致性的问题，还有可能引发不可置信的死循环。当然，javadoc里已经明确告诫大家了：
-1Note that this implementation is not synchronized. If multiple thre">
+<meta name="twitter:description" content="hashmapjava里的hashmap是单线程的，一般在多线程情况下，我们应该使用ConcurrentHashMap。因为在并发条件下，HashMap的误用可能不仅导致数据不一致性的问题，还有可能引发不可置信的死循环。当然，javadoc里已经明确告诫大家了： 1Note that this implementation is not synchronized. If multiple thr">
   
     <link rel="alternative" href="/atom.xml" title="Welcome to XHao&#39;s Home" type="application/atom+xml">
   
   
     <link rel="icon" href="/img/favicon.ico">
   
-  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
 </head>
-
+</html>
 <body>
   <div id="container">
     <div class="left-col">
@@ -218,10 +217,10 @@
       
         <a id="more"></a>
 <h3 id="hashmap"><a href="#hashmap" class="headerlink" title="hashmap"></a>hashmap</h3><p>java里的hashmap是单线程的，一般在多线程情况下，我们应该使用ConcurrentHashMap。因为在并发条件下，HashMap的误用可能不仅导致数据不一致性的问题，还有可能引发不可置信的死循环。当然，javadoc里已经明确告诫大家了：</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Note <span class="keyword">that</span> this implementation <span class="keyword">is</span> <span class="keyword">not</span> synchronized. If multiple threads access a hash map concurrently, <span class="keyword">and</span> <span class="keyword">at</span> least one <span class="keyword">of</span> <span class="keyword">the</span> threads modifies <span class="keyword">the</span> map structurally, <span class="keyword">it</span> must be synchronized externally. (A structural modification <span class="keyword">is</span> any operation <span class="keyword">that</span> adds <span class="keyword">or</span> deletes one <span class="keyword">or</span> more mappings; merely changing <span class="keyword">the</span> value associated <span class="keyword">with</span> a key <span class="keyword">that</span> an instance already <span class="keyword">contains</span> <span class="keyword">is</span> <span class="keyword">not</span> a structural modification.) This <span class="keyword">is</span> typically accomplished <span class="keyword">by</span> synchronizing <span class="function_start"><span class="keyword">on</span></span> <span class="keyword">some</span> object <span class="keyword">that</span> naturally encapsulates <span class="keyword">the</span> map. If no such object exists, <span class="keyword">the</span> map should be <span class="string">"wrapped"</span> using <span class="keyword">the</span> Collections.synchronizedMap method. This <span class="keyword">is</span> best done <span class="keyword">at</span> creation <span class="property">time</span>, <span class="keyword">to</span> prevent accidental unsynchronized access <span class="keyword">to</span> <span class="keyword">the</span> map</span><br></pre></td></tr></table></figure>
+<figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Note that this implementation <span class="literal">is</span><span class="built_in"> not</span> synchronized. If multiple threads access a hash <span class="keyword">map</span> concurrently, <span class="keyword">and</span> <span class="keyword">at</span> <span class="keyword">least</span> one <span class="keyword">of</span> the threads modifies the <span class="keyword">map</span> structurally, it must be synchronized externally. (A structural modification <span class="literal">is</span> any operation that adds <span class="keyword">or</span> deletes one <span class="keyword">or</span> more mappings; merely changing the <span class="keyword">value</span> associated with a<span class="built_in"> key</span> that an <span class="keyword">instance</span> already<span class="built_in"> contains</span> <span class="literal">is</span><span class="built_in"> not</span> a structural modification.) This <span class="literal">is</span> typically accomplished <span class="keyword">by</span> synchronizing on <span class="keyword">some</span> object that naturally encapsulates the <span class="keyword">map</span>. If no such object<span class="built_in"> exists</span>, the <span class="keyword">map</span> should be <span class="string">"wrapped"</span> using the Collections.synchronizedMap method. This <span class="literal">is</span> best done <span class="keyword">at</span> creation time, <span class="keyword">to</span> prevent accidental unsynchronized access <span class="keyword">to</span> the <span class="keyword">map</span></span><br></pre></td></tr></table></figure>
 <p>这个问题是在rehash时候触发的循环链表造成的，之前sun对此的解释是<strong>请选择用ConcurrentHashMap</strong></p>
 <h3 id="SimpleDateFormat"><a href="#SimpleDateFormat" class="headerlink" title="SimpleDateFormat"></a>SimpleDateFormat</h3><p>SimpleDateFormat是java中常用的时间format手段。它本身也不是线程安全的，在并发多线程条件下，比较好的做法应该是使用ThreadLocal或者每个线程创建属于自己的dateFormat。</p>
-<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Synchronization</span><br><span class="line">Date formats are <span class="operator">not</span> synchronized. It is recommended <span class="built_in">to</span> <span class="built_in">create</span> separate <span class="built_in">format</span> instances <span class="keyword">for</span> <span class="keyword">each</span> thread. If multiple threads access <span class="operator">a</span> <span class="built_in">format</span> concurrently, <span class="keyword">it</span> must be synchronized externally.</span><br></pre></td></tr></table></figure>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Synchronization</span><br><span class="line">Date formats are <span class="keyword">not</span> synchronized. It is recommended <span class="built_in">to</span> <span class="built_in">create</span> separate <span class="built_in">format</span> instances <span class="keyword">for</span> <span class="keyword">each</span> thread. If multiple threads access <span class="keyword">a</span> <span class="built_in">format</span> concurrently, <span class="keyword">it</span> must be synchronized externally.</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -290,7 +289,7 @@
 
     </div>
     
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
 
 
 <script>
@@ -306,8 +305,8 @@
 		open_in_new: false
 	}
 </script>
-<script src="//7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
-<script src="/js/main.js" type="text/javascript"></script>
+<script src="//7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
 
 
 

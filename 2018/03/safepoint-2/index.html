@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Hotspot的safe point | Welcome to XHao&#39;s Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="在上一篇中已经提到了safe point，必须强调这是一个很重要的概念，不仅对Jvm，也对所有运行在jvm上的Java应用。从Jvm的角度来看，到达safe point之后，Jvm会开始做一些有意义的事（比如gc）；从应用的角度来看，达到safe point意味着工作线程会产生停顿，即常说的“stop the world”。当下所有Jvm的具体实现都有这样的概念（比如Hotspot、Zing），了">
+<meta name="keywords" content="java,performance">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hotspot的safe point">
 <meta property="og:url" content="https://xhao.io/2018/03/safepoint-2/index.html">
-<meta property="og:site_name" content="Welcome to XHao's Home">
+<meta property="og:site_name" content="Welcome to XHao&#39;s Home">
 <meta property="og:description" content="在上一篇中已经提到了safe point，必须强调这是一个很重要的概念，不仅对Jvm，也对所有运行在jvm上的Java应用。从Jvm的角度来看，到达safe point之后，Jvm会开始做一些有意义的事（比如gc）；从应用的角度来看，达到safe point意味着工作线程会产生停顿，即常说的“stop the world”。当下所有Jvm的具体实现都有这样的概念（比如Hotspot、Zing），了">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2020-07-23T15:25:07.500Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hotspot的safe point">
@@ -22,9 +24,9 @@
   
     <link rel="icon" href="/img/favicon.ico">
   
-  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
 </head>
-
+</html>
 <body>
   <div id="container">
     <div class="left-col">
@@ -243,10 +245,10 @@
 <li>global safe point会STW，local safe point只影响部分threads；</li>
 <li>一些gc并发算法，threads会进入safe point，虽然规范里没有说一定是global safe point，不过Hotspot当前只有global safe point，所以stop threads = STW；对所有的jvm实现而言，full gc一定是进入global safe point</li>
 <li>safe point并非只是gc时候才触发，实际上触发点挺多的，不过大部分都不需要担心</li>
-<li>需要担心的比如gc，比如<a href="https://blog.csdn.net/hsuxu/article/details/9472381" target="_blank" rel="external">偏向锁问题</a>，比如JIT的逆优化（代码逆优化时，会对性能产生一些小而短暂的影响)，比如java profile工具（它们通常会通过调用jvmti导致触发safe point）……<code>--XX:+TraceSafepointCleanupTime</code>可以帮助查看safe point的细节</li>
+<li>需要担心的比如gc，比如<a href="https://blog.csdn.net/hsuxu/article/details/9472381" target="_blank" rel="noopener">偏向锁问题</a>，比如JIT的逆优化（代码逆优化时，会对性能产生一些小而短暂的影响)，比如java profile工具（它们通常会通过调用jvmti导致触发safe point）……<code>--XX:+TraceSafepointCleanupTime</code>可以帮助查看safe point的细节</li>
 <li><code>-XX:+PrintGCApplicationStoppedTime</code>和<code>-XX:+PrintGCApplicationConcurrentTime</code>这2个参数我认为java应用都应该使用</li>
 </ul>
-<h2 id="如何进入safe-point"><a href="#如何进入safe-point" class="headerlink" title="如何进入safe point"></a>如何进入safe point</h2><p>这个我建议看看<a href="http://psy-lob-saw.blogspot.com/2015/12/safepoints.html" target="_blank" rel="external">Bringing a Java Thread to a Safepoint章节</a></p>
+<h2 id="如何进入safe-point"><a href="#如何进入safe-point" class="headerlink" title="如何进入safe point"></a>如何进入safe point</h2><p>这个我建议看看<a href="http://psy-lob-saw.blogspot.com/2015/12/safepoints.html" target="_blank" rel="noopener">Bringing a Java Thread to a Safepoint章节</a></p>
 <p>摘录一下就是：</p>
 <ul>
 <li>Between any 2 bytecodes while running in the interpreter (effectively)</li>
@@ -258,8 +260,8 @@
 <p>对于一个线程来说，遇到<code>{poll}</code>之前所要执行的指令是不可预知的，也就是说时间是不可预知的，这段时间我们通常叫做Time To Safe Point(TTSP)，这个时间的长短有时候会产生意想不到的影响，可以回头再看看我们在文章开头提到的现象……</p>
 <h2 id="更进一步"><a href="#更进一步" class="headerlink" title="更进一步"></a>更进一步</h2><p>如果我们的java程序遇到了一些很诡异的暂停，可以考虑分析看看safe point，这个时候参数<code>-XX:+PrintSafepointStatistics –XX:PrintSafepointStatisticsCount=X</code>就能派上用场。</p>
 <p>经验上来看，“禁止偏向锁”、“禁止部分代码内联”会对TTSP有所改善，当然这些东西都不能一概而论，具体情况具体分析吧。</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a name="ps1"><a href="https://www.youtube.com/watch?v=Y39kllzX1P8" target="_blank" rel="external">With GC Solved, What Else Makes a JVM Pause?</a></a></p>
-<p><a name="ps2"><a href="http://psy-lob-saw.blogspot.com/Psy-Lob-Saw" target="_blank" rel="external">Nitsan Wakart</a></a></p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a name="ps1"><a href="https://www.youtube.com/watch?v=Y39kllzX1P8" target="_blank" rel="noopener">With GC Solved, What Else Makes a JVM Pause?</a></a></p>
+<p><a name="ps2"><a href="http://psy-lob-saw.blogspot.com/Psy-Lob-Saw" target="_blank" rel="noopener">Nitsan Wakart</a></a></p>
 
       
     </div>
@@ -328,7 +330,7 @@
 
     </div>
     
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
 
 
 <script>
@@ -344,8 +346,8 @@
 		open_in_new: false
 	}
 </script>
-<script src="//7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
-<script src="/js/main.js" type="text/javascript"></script>
+<script src="//7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
 
 
 

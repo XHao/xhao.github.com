@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>ruby的闭包 | Welcome to XHao&#39;s Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="闭包这个概念，我最早是从javascript中了解到的。这个概念逐渐被所有的主流语言所接受（包括lambda）。而ruby中的闭包概念也差不太多，那么就先从ruby的代码块说起">
+<meta name="keywords" content="ruby">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ruby的闭包">
 <meta property="og:url" content="https://xhao.io/2013/07/study-blocks/index.html">
-<meta property="og:site_name" content="Welcome to XHao's Home">
+<meta property="og:site_name" content="Welcome to XHao&#39;s Home">
 <meta property="og:description" content="闭包这个概念，我最早是从javascript中了解到的。这个概念逐渐被所有的主流语言所接受（包括lambda）。而ruby中的闭包概念也差不太多，那么就先从ruby的代码块说起">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2020-07-23T15:25:07.504Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ruby的闭包">
@@ -22,9 +24,9 @@
   
     <link rel="icon" href="/img/favicon.ico">
   
-  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
 </head>
-
+</html>
 <body>
   <div id="container">
     <div class="left-col">
@@ -215,15 +217,15 @@
       
         <p>闭包这个概念，我最早是从javascript中了解到的。这个概念逐渐被所有的主流语言所接受（包括lambda）。而ruby中的闭包概念也差不太多，那么就先从ruby的代码块说起<br><a id="more"></a><br><strong>什么是代码块</strong></p>
 <p>我觉得可以这样理解，在Ruby中有一种方法A，在定义的时候，我们不能准确地说出它的方法逻辑是什么（这个方法虽然有明确的目的，即会用来做什么，但具体工作要视具体的环境而定，因此这种方法可以尽可能地被复用到各种场合），当我们使用时，就会传递给它一些需要执行的逻辑，这个逻辑就是“块”。我觉得类似java、c++中的匿名函数Lambda，只是更简单、更好用了。</p>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="prompt">irb(main):008:0&gt;</span> <span class="function"><span class="keyword">def</span> <span class="title">a_method</span><span class="params">(a,b)</span></span></span><br><span class="line"><span class="prompt">irb(main):009:1&gt;</span> a + yield(a,b)</span><br><span class="line"><span class="prompt">irb(main):010:1&gt;</span> end</span><br><span class="line"><span class="status">=&gt;</span> nil</span><br><span class="line"><span class="prompt">irb(main):011:0&gt;</span>a_method(<span class="number">1</span>,<span class="number">2</span>)&#123;|x,y| (x+y)*<span class="number">3</span>&#125;</span><br><span class="line"><span class="status">=&gt;</span> <span class="number">10</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">irb(main):008:0&gt;</span> <span class="function"><span class="keyword">def</span> <span class="title">a_method</span><span class="params">(a,b)</span></span></span><br><span class="line"><span class="meta">irb(main):009:1&gt;</span> a + yield(a,b)</span><br><span class="line"><span class="meta">irb(main):010:1&gt;</span> end</span><br><span class="line">=&gt; nil</span><br><span class="line"><span class="meta">irb(main):011:0&gt;</span>a_method(<span class="number">1</span>,<span class="number">2</span>)&#123;<span class="params">|x,y|</span> (x+y)*<span class="number">3</span>&#125;</span><br><span class="line">=&gt; <span class="number">10</span></span><br></pre></td></tr></table></figure>
 <p><strong>什么是闭包</strong></p>
 <p>块是Ruby实现闭包的一种手段，<strong>闭包</strong>是函数式编程中的一个重要概念。当定义一个块时，它会获取当前运行环境的“绑定”（可以理解为上下文信息），获得“绑定”的块是完整的，它们以一个“整体”传递给方法。比如这样：</p>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="prompt">irb(main):023:0&gt;</span> <span class="function"><span class="keyword">def</span> <span class="title">a_method</span></span></span><br><span class="line"><span class="prompt">irb(main):024:1&gt;</span> yield(<span class="string">"shako"</span>)</span><br><span class="line"><span class="prompt">irb(main):025:1&gt;</span> end</span><br><span class="line"><span class="status">=&gt;</span> nil</span><br><span class="line"><span class="prompt">irb(main):020:0&gt;</span> x=<span class="string">"hello"</span></span><br><span class="line"><span class="prompt">irb(main):026:0&gt;</span> a_method&#123;|y| <span class="string">"<span class="subst">#&#123;x&#125;</span>, <span class="subst">#&#123;y&#125;</span>"</span>&#125;</span><br><span class="line"><span class="status">=&gt;</span> <span class="string">"hello, shako"</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">irb(main):023:0&gt;</span> <span class="function"><span class="keyword">def</span> <span class="title">a_method</span></span></span><br><span class="line"><span class="meta">irb(main):024:1&gt;</span> yield(<span class="string">"shako"</span>)</span><br><span class="line"><span class="meta">irb(main):025:1&gt;</span> end</span><br><span class="line">=&gt; nil</span><br><span class="line"><span class="meta">irb(main):020:0&gt;</span> x=<span class="string">"hello"</span></span><br><span class="line"><span class="meta">irb(main):026:0&gt;</span> a_method&#123;<span class="params">|y|</span> <span class="string">"<span class="subst">#&#123;x&#125;</span>, <span class="subst">#&#123;y&#125;</span>"</span>&#125;</span><br><span class="line">=&gt; <span class="string">"hello, shako"</span></span><br></pre></td></tr></table></figure>
 <p>变量x作为块的绑定一起进入了方法中，并且即便方法a_method中也有一个x的局部变量，但这不会影响块中的x，因为块的绑定是在开始就确定的，并且一直带着的，这就是闭包的特性。  </p>
 <p>闭包强调了作用域的概念，在Ruby中class、module和def的出现，意味着作用域的切换，每当进入一个新的作用域，前一个作用域的绑定就会丢失，新作用域会重新确定当前的绑定。闭包就是给与了穿越作用域门的可能（class、module、def）。简单的办法就是用Class.new代替class，使用Module.new代替module，用Module#define_method代替def，并使用到前文所介绍的块（代码与变量的整体）。这里有很多概念，例如扁平作用域、共享作用域……（慢慢消化）</p>
 <p><strong>instance_eval()</strong></p>
 <p>Object#instance_eval，这个方法特殊之处在于</p>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="prompt">irb(main):028:0&gt;</span> <span class="class"><span class="keyword">class</span> <span class="title">Myclass</span></span></span><br><span class="line"><span class="prompt">irb(main):029:1&gt;</span> <span class="function"><span class="keyword">def</span> <span class="title">initialize</span></span></span><br><span class="line"><span class="prompt">irb(main):030:2&gt;</span> <span class="variable">@v</span> = <span class="number">1</span></span><br><span class="line"><span class="prompt">irb(main):031:2&gt;</span> end</span><br><span class="line"><span class="prompt">irb(main):032:1&gt;</span> end</span><br><span class="line"><span class="status">=&gt;</span> nil</span><br><span class="line"><span class="prompt">irb(main):033:0&gt;</span> obj = <span class="constant">Myclass</span>.new</span><br><span class="line"><span class="status">=&gt;</span> <span class="value">#&lt;Myclass:0x0000000304a558 @v=1&gt;</span></span><br><span class="line"><span class="prompt">irb(main):034:0&gt;</span> obj.instance_eval do</span><br><span class="line">irb(main)<span class="symbol">:</span><span class="number">035</span><span class="symbol">:</span><span class="number">1</span>* <span class="keyword">self</span></span><br><span class="line"><span class="prompt">irb(main):036:1&gt;</span> <span class="variable">@v</span></span><br><span class="line"><span class="prompt">irb(main):037:1&gt;</span> end</span><br><span class="line"><span class="status">=&gt;</span> <span class="number">1</span></span><br><span class="line"><span class="prompt">irb(main):038:0&gt;</span> v = <span class="number">2</span></span><br><span class="line"><span class="status">=&gt;</span> <span class="number">2</span></span><br><span class="line"><span class="prompt">irb(main):039:0&gt;</span> obj.instance_eval &#123;<span class="variable">@v</span> = v&#125;</span><br><span class="line"><span class="status">=&gt;</span> <span class="number">2</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">irb(main):028:0&gt;</span> <span class="class"><span class="keyword">class</span> <span class="title">Myclass</span></span></span><br><span class="line"><span class="meta">irb(main):029:1&gt;</span> <span class="function"><span class="keyword">def</span> <span class="title">initialize</span></span></span><br><span class="line"><span class="meta">irb(main):030:2&gt;</span> @v = <span class="number">1</span></span><br><span class="line"><span class="meta">irb(main):031:2&gt;</span> end</span><br><span class="line"><span class="meta">irb(main):032:1&gt;</span> end</span><br><span class="line">=&gt; nil</span><br><span class="line"><span class="meta">irb(main):033:0&gt;</span> obj = Myclass.new</span><br><span class="line">=&gt; #&lt;Myclass:0x0000000304a558 @v=1&gt;</span><br><span class="line"><span class="meta">irb(main):034:0&gt;</span> obj.instance_eval do</span><br><span class="line">irb(main)<span class="symbol">:</span><span class="number">035</span><span class="symbol">:</span><span class="number">1</span>* <span class="keyword">self</span></span><br><span class="line"><span class="meta">irb(main):036:1&gt;</span> @v</span><br><span class="line"><span class="meta">irb(main):037:1&gt;</span> end</span><br><span class="line">=&gt; <span class="number">1</span></span><br><span class="line"><span class="meta">irb(main):038:0&gt;</span> v = <span class="number">2</span></span><br><span class="line">=&gt; <span class="number">2</span></span><br><span class="line"><span class="meta">irb(main):039:0&gt;</span> obj.instance_eval &#123;@v = v&#125;</span><br><span class="line">=&gt; <span class="number">2</span></span><br></pre></td></tr></table></figure>
 <p>没错，“irb(main):036:1&gt; @v # =&gt;1表示块的接受者obj成为self，所以才能访问到obj的私有方法和实例变量，而最后的几句告诉我们，instance_eval还能改变self对象，也就是说Ruby打破了封装。所以很多时候，写ruby代码得小心谨慎，一不留神搞出个bug，让你找都找不到。</p>
 
       
@@ -293,7 +295,7 @@
 
     </div>
     
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
 
 
 <script>
@@ -309,8 +311,8 @@
 		open_in_new: false
 	}
 </script>
-<script src="//7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
-<script src="/js/main.js" type="text/javascript"></script>
+<script src="//7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
 
 
 

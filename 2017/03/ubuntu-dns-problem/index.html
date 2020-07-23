@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>ubuntu16.04LTS遇到的dns解析问题 | Welcome to XHao&#39;s Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="最近遇到一个ubuntu系统的问题：无法使用dns解析服务。找到原因，居然是和NetworkManager)相关">
+<meta name="keywords" content="linux">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ubuntu16.04LTS遇到的dns解析问题">
 <meta property="og:url" content="https://xhao.io/2017/03/ubuntu-dns-problem/index.html">
-<meta property="og:site_name" content="Welcome to XHao's Home">
+<meta property="og:site_name" content="Welcome to XHao&#39;s Home">
 <meta property="og:description" content="最近遇到一个ubuntu系统的问题：无法使用dns解析服务。找到原因，居然是和NetworkManager)相关">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2020-07-23T15:25:07.504Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ubuntu16.04LTS遇到的dns解析问题">
@@ -22,9 +24,9 @@
   
     <link rel="icon" href="/img/favicon.ico">
   
-  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
 </head>
-
+</html>
 <body>
   <div id="container">
     <div class="left-col">
@@ -213,7 +215,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>最近遇到一个ubuntu系统的问题：无法使用dns解析服务。找到原因，居然是和<a href="https://wiki.archlinux.org/index.php/NetworkManager_\(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87\" target="_blank" rel="external">NetworkManager</a>)相关<br><a id="more"></a></p>
+        <p>最近遇到一个ubuntu系统的问题：无法使用dns解析服务。找到原因，居然是和<a href="https://wiki.archlinux.org/index.php/NetworkManager_\(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87\" target="_blank" rel="noopener">NetworkManager</a>)相关<br><a id="more"></a></p>
 <h3 id="我遇到问题时的场景是："><a href="#我遇到问题时的场景是：" class="headerlink" title="我遇到问题时的场景是："></a>我遇到问题时的场景是：</h3><ul>
 <li>操作系统ubuntu 16.04LTS</li>
 <li>路由器是梅林系统，使用了shadesocks插件</li>
@@ -228,7 +230,7 @@
 </li>
 </ul>
 <p>重启networkmanager之后，会发现<code>/etc/resolv.conf</code>不再有127.0.1.1这个nameserver，取而代之的是我的路由器地址</p>
-<h3 id="reason"><a href="#reason" class="headerlink" title="reason"></a>reason</h3><p>其实这是从120.4lts之后，新加入的实现，对于vpn的用户来说，稍有不同，<a href="https://stgraber.org/2012/02/24/dns-in-ubuntu-12-04/" target="_blank" rel="external">这篇文章做了一个简单地介绍</a></p>
+<h3 id="reason"><a href="#reason" class="headerlink" title="reason"></a>reason</h3><p>其实这是从120.4lts之后，新加入的实现，对于vpn的用户来说，稍有不同，<a href="https://stgraber.org/2012/02/24/dns-in-ubuntu-12-04/" target="_blank" rel="noopener">这篇文章做了一个简单地介绍</a></p>
 
       
     </div>
@@ -297,7 +299,7 @@
 
     </div>
     
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
 
 
 <script>
@@ -313,8 +315,8 @@
 		open_in_new: false
 	}
 </script>
-<script src="//7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
-<script src="/js/main.js" type="text/javascript"></script>
+<script src="//7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
 
 
 

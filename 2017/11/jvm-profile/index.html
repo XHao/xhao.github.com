@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>使用java profile | Welcome to XHao&#39;s Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="这次是学习使用一个java sample工具，顺便了解一些linux、jvm的知识">
+<meta name="keywords" content="java,performance">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用java profile">
 <meta property="og:url" content="https://xhao.io/2017/11/jvm-profile/index.html">
-<meta property="og:site_name" content="Welcome to XHao's Home">
+<meta property="og:site_name" content="Welcome to XHao&#39;s Home">
 <meta property="og:description" content="这次是学习使用一个java sample工具，顺便了解一些linux、jvm的知识">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2020-07-23T15:25:07.500Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用java profile">
@@ -22,9 +24,9 @@
   
     <link rel="icon" href="/img/favicon.ico">
   
-  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
 </head>
-
+</html>
 <body>
   <div id="container">
     <div class="left-col">
@@ -213,9 +215,9 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>这次是学习使用一个java sample工具，顺便了解一些linux、jvm的知识<br><a id="more"></a><br>浏览github的时候，发现了一个不错的java工具——<a href="https://github.com/jvm-profiling-tools/async-profiler" target="_blank" rel="external">async-profile</a>，这和平时使用的JMC差不多，不过它是开源的，对于我们不算是黑盒。时间充裕的话，还可以看看它的源码，因为它使用了Hotspot的一些回调，顺道还能加深对Hotspot的了解。本文会从4个方面总结一下心得体会。</p>
-<h2 id="async-profile的使用"><a href="#async-profile的使用" class="headerlink" title="async profile的使用"></a>async profile的使用</h2><p>工具的使用还是很简单的，官方也有很详细的<a href="https://github.com/jvm-profiling-tools/async-profiler#profiler-options" target="_blank" rel="external">说明</a>（源码下载后记得<code>make</code>编译一下）</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ jps</span><br><span class="line"><span class="number">9234</span> Jps</span><br><span class="line"><span class="number">8983</span> Computey</span><br><span class="line">$ ./profiler.sh start <span class="number">8983</span></span><br></pre></td></tr></table></figure>
+        <p>这次是学习使用一个java sample工具，顺便了解一些linux、jvm的知识<br><a id="more"></a><br>浏览github的时候，发现了一个不错的java工具——<a href="https://github.com/jvm-profiling-tools/async-profiler" target="_blank" rel="noopener">async-profile</a>，这和平时使用的JMC差不多，不过它是开源的，对于我们不算是黑盒。时间充裕的话，还可以看看它的源码，因为它使用了Hotspot的一些回调，顺道还能加深对Hotspot的了解。本文会从4个方面总结一下心得体会。</p>
+<h2 id="async-profile的使用"><a href="#async-profile的使用" class="headerlink" title="async profile的使用"></a>async profile的使用</h2><p>工具的使用还是很简单的，官方也有很详细的<a href="https://github.com/jvm-profiling-tools/async-profiler#profiler-options" target="_blank" rel="noopener">说明</a>（源码下载后记得<code>make</code>编译一下）</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ jps</span><br><span class="line">9234 Jps</span><br><span class="line">8983 Computey</span><br><span class="line">$ ./profiler.sh start 8983</span><br></pre></td></tr></table></figure>
 <p>当你<code>./profiler.sh stop 8983</code>的时候，会将之前sample的数据打印在控制台，不过通常数据都很多，我会选择<code>-f /tmp/sample.txt</code>用文件保存起来，方便使用</p>
 <p>除此之外，<code>-e event</code>也比较有用，不过使用之前需要<code>list pid</code>来看看你的机器上支持哪些events，比如我的机器上返回的是</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Perf events:</span><br><span class="line">  cpu</span><br><span class="line">Java events:</span><br><span class="line">  alloc</span><br><span class="line">  lock</span><br></pre></td></tr></table></figure>
@@ -224,20 +226,20 @@
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Perf events:</span><br><span class="line">  cpu</span><br><span class="line">  page-faults</span><br><span class="line">  context-switches</span><br><span class="line">  cycles</span><br><span class="line">  instructions</span><br><span class="line">  cache-references</span><br><span class="line">  cache-misses</span><br><span class="line">  branches</span><br><span class="line">  branch-misses</span><br><span class="line">  bus-cycles</span><br><span class="line">  L1-dcache-load-misses</span><br><span class="line">  LLC-load-misses</span><br><span class="line">  dTLB-load-misses</span><br><span class="line">Java events:</span><br><span class="line">  alloc</span><br><span class="line">  lock</span><br></pre></td></tr></table></figure>
 <p><code>-t pid</code>也很常用，它是根据线程来sample的，这样对我们后续的分析会带来好处</p>
 <h3 id="限制条件"><a href="#限制条件" class="headerlink" title="限制条件"></a>限制条件</h3><ol>
-<li><p>工具最大的限制大都和<code>perf</code><a href="https://github.com/jvm-profiling-tools/async-profiler#restrictionslimitations" target="_blank" rel="external">相关</a> </p>
+<li><p>工具最大的限制大都和<code>perf</code><a href="https://github.com/jvm-profiling-tools/async-profiler#restrictionslimitations" target="_blank" rel="noopener">相关</a> </p>
 </li>
-<li><p>不能打开<code>-XX:+DisableAttachMechanism</code>，因为它也是使用jvm的attach<a href="http://lovestblog.cn/blog/2014/06/18/jvm-attach/" target="_blank" rel="external">机制</a></p>
+<li><p>不能打开<code>-XX:+DisableAttachMechanism</code>，因为它也是使用jvm的attach<a href="http://lovestblog.cn/blog/2014/06/18/jvm-attach/" target="_blank" rel="noopener">机制</a></p>
 </li>
 </ol>
 <h2 id="async-profile特点"><a href="#async-profile特点" class="headerlink" title="async profile特点"></a>async profile特点</h2><p>一句话概括，就是很小的额外开销，非常适合于生产环境。cpu profiling使用的是perf_events和java code address的match来追踪；memory allocation使用的是Hotspot上的回调，不需要字节码修改等复杂的技术。</p>
 <h2 id="jvm-safePoint-bias"><a href="#jvm-safePoint-bias" class="headerlink" title="jvm safePoint bias"></a>jvm safePoint bias</h2><p>这里要说的是safePoint和jvm profile的关系</p>
 <p>我看到有一位高手写了2篇文章，算是通俗易懂地解释了其他profile的问题所在</p>
-<p><a href="http://psy-lob-saw.blogspot.ru/2016/02/why-most-sampling-java-profilers-are.html" target="_blank" rel="external">why-most-sampling-java-profilers-are</a></p>
-<p><a href="http://psy-lob-saw.blogspot.co.za/2016/06/the-pros-and-cons-of-agct.html" target="_blank" rel="external">the-pros-and-cons-of-agct</a></p>
+<p><a href="http://psy-lob-saw.blogspot.ru/2016/02/why-most-sampling-java-profilers-are.html" target="_blank" rel="noopener">why-most-sampling-java-profilers-are</a></p>
+<p><a href="http://psy-lob-saw.blogspot.co.za/2016/06/the-pros-and-cons-of-agct.html" target="_blank" rel="noopener">the-pros-and-cons-of-agct</a></p>
 <h2 id="perf工具"><a href="#perf工具" class="headerlink" title="perf工具"></a>perf工具</h2><p>这是linux内核自带的性能分析工具。从前面2段<code>$ ./profiler.sh list pid</code>结果也能看到，有了perf工具之后，可以追踪到硬件或者内核级别的软件事件。</p>
 <p>在centos上的安装方式<code>sudo yum install perf</code></p>
 <p>举个例子，<code>perf stat</code>命令可以得到一个全局的统计信息，能在第一时间帮助我们分析问题</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$ perf <span class="built_in">stat</span> <span class="built_in">echo</span> <span class="variable">$JAVA_HOME</span></span><br><span class="line">/usr/lib/jvm/java-<span class="number">1.8</span>.<span class="number">0</span>-openjdk-<span class="number">1.8</span>.<span class="number">0.111</span>-<span class="number">1</span>.b15.el7_2.x86_64</span><br><span class="line"></span><br><span class="line"> Performance counter stats <span class="keyword">for</span> <span class="string">'echo /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.111-1.b15.el7_2.x86_64'</span>:</span><br><span class="line"></span><br><span class="line">          <span class="number">0</span>,<span class="number">505282</span>      task-clock (msec)         <span class="comment">#    0,195 CPUs utilized          CPU 利用率，该值高，说明程序的多数时间花费在 CPU 计算上而非 IO</span></span><br><span class="line">                 <span class="number">1</span>      context-switches          <span class="comment">#    0,002 M/sec                  进程切换次数，记录了程序运行过程中发生了多少次进程切换，频繁的进程切换是应该避免的</span></span><br><span class="line">                 <span class="number">0</span>      cpu-migrations            <span class="comment">#    0,000 K/sec                  表示进程运行过程中发生了多少次 CPU 迁移，即被调度器从一个 CPU 转移到另外一个 CPU 上运行</span></span><br><span class="line">               <span class="number">168</span>      page-faults               <span class="comment">#    0,332 M/sec                  </span></span><br><span class="line">   &lt;not supported&gt;      cycles                    <span class="comment">#                                 处理器时钟，一条机器指令可能需要多个 cycles </span></span><br><span class="line">   &lt;not supported&gt;      instructions              <span class="comment">#                                 机器指令数目 </span></span><br><span class="line">   &lt;not supported&gt;      branches                  <span class="comment">#                                  </span></span><br><span class="line">   &lt;not supported&gt;      branch-misses             <span class="comment">#                                  </span></span><br><span class="line"></span><br><span class="line">       <span class="number">0</span>,<span class="number">002588576</span> seconds time elapsed</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$ perf <span class="built_in">stat</span> <span class="built_in">echo</span> <span class="variable">$JAVA_HOME</span></span><br><span class="line">/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.111-1.b15.el7_2.x86_64</span><br><span class="line"></span><br><span class="line"> Performance counter stats <span class="keyword">for</span> <span class="string">'echo /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.111-1.b15.el7_2.x86_64'</span>:</span><br><span class="line"></span><br><span class="line">          0,505282      task-clock (msec)         <span class="comment">#    0,195 CPUs utilized          CPU 利用率，该值高，说明程序的多数时间花费在 CPU 计算上而非 IO</span></span><br><span class="line">                 1      context-switches          <span class="comment">#    0,002 M/sec                  进程切换次数，记录了程序运行过程中发生了多少次进程切换，频繁的进程切换是应该避免的</span></span><br><span class="line">                 0      cpu-migrations            <span class="comment">#    0,000 K/sec                  表示进程运行过程中发生了多少次 CPU 迁移，即被调度器从一个 CPU 转移到另外一个 CPU 上运行</span></span><br><span class="line">               168      page-faults               <span class="comment">#    0,332 M/sec                  </span></span><br><span class="line">   &lt;not supported&gt;      cycles                    <span class="comment">#                                 处理器时钟，一条机器指令可能需要多个 cycles </span></span><br><span class="line">   &lt;not supported&gt;      instructions              <span class="comment">#                                 机器指令数目 </span></span><br><span class="line">   &lt;not supported&gt;      branches                  <span class="comment">#                                  </span></span><br><span class="line">   &lt;not supported&gt;      branch-misses             <span class="comment">#                                  </span></span><br><span class="line"></span><br><span class="line">       0,002588576 seconds time elapsed</span><br></pre></td></tr></table></figure>
 <p>其他的命令包括：<code>perf top</code>用于实时显示当前系统的性能统计信息。该命令主要用来观察整个系统当前的状态，比如可以通过查看该命令的输出来查看当前系统最耗时的内核函数或某个用户进程……等等</p>
 <p>详细去找手册就好</p>
 
@@ -308,7 +310,7 @@
 
     </div>
     
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
 
 
 <script>
@@ -324,8 +326,8 @@
 		open_in_new: false
 	}
 </script>
-<script src="//7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
-<script src="/js/main.js" type="text/javascript"></script>
+<script src="//7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
 
 
 

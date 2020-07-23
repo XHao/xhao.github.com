@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>javaagent的使用 | Welcome to XHao&#39;s Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="在Java中，java agent和java反射调用一样，都是非常重要的特性，利用这种语言特性，可以做一些有意思的工作。比如说线程间传递threadlocal，又或者运行时AOP。除了功能以外，另一点也很重要：java agent是使用java语言开发。对于java程序员来讲，门槛并不高。">
+<meta name="keywords" content="java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="javaagent的使用">
 <meta property="og:url" content="https://xhao.io/2019/05/javaagent/index.html">
-<meta property="og:site_name" content="Welcome to XHao's Home">
+<meta property="og:site_name" content="Welcome to XHao&#39;s Home">
 <meta property="og:description" content="在Java中，java agent和java反射调用一样，都是非常重要的特性，利用这种语言特性，可以做一些有意思的工作。比如说线程间传递threadlocal，又或者运行时AOP。除了功能以外，另一点也很重要：java agent是使用java语言开发。对于java程序员来讲，门槛并不高。">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2020-07-23T15:25:07.500Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="javaagent的使用">
@@ -22,9 +24,9 @@
   
     <link rel="icon" href="/img/favicon.ico">
   
-  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
 </head>
-
+</html>
 <body>
   <div id="container">
     <div class="left-col">
@@ -213,7 +215,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>在Java中，java agent和java反射调用一样，都是非常重要的特性，利用这种语言特性，可以做一些有意思的工作。比如说<a href="https://github.com/alibaba/transmittable-thread-local" target="_blank" rel="external">线程间传递threadlocal</a>，又或者<a href="https://github.com/alibaba/jvm-sandbox" target="_blank" rel="external">运行时AOP</a>。除了功能以外，另一点也很重要：java agent是使用java语言开发。对于java程序员来讲，门槛并不高。<br><a id="more"></a><br>java agent的原理网上也有很多介绍，主要是利用了<a href="https://www.ibm.com/developerworks/cn/java/j-lo-jpda2/index.html" target="_blank" rel="external">JVMTI</a>的一个agent库：<strong>libinstrument</strong>。在使用上，一般有2种方式：</p>
+        <p>在Java中，java agent和java反射调用一样，都是非常重要的特性，利用这种语言特性，可以做一些有意思的工作。比如说<a href="https://github.com/alibaba/transmittable-thread-local" target="_blank" rel="noopener">线程间传递threadlocal</a>，又或者<a href="https://github.com/alibaba/jvm-sandbox" target="_blank" rel="noopener">运行时AOP</a>。除了功能以外，另一点也很重要：java agent是使用java语言开发。对于java程序员来讲，门槛并不高。<br><a id="more"></a><br>java agent的原理网上也有很多介绍，主要是利用了<a href="https://www.ibm.com/developerworks/cn/java/j-lo-jpda2/index.html" target="_blank" rel="noopener">JVMTI</a>的一个agent库：<strong>libinstrument</strong>。在使用上，一般有2种方式：</p>
 <ul>
 <li>启动时进行加载：-javaagent:myagent.jar</li>
 <li>或者动态attach</li>
@@ -221,16 +223,16 @@
 <p>如果是动态attach的话，<a href="#jattach">一般</a>还需要依赖jdk目录下的<code>/lib/tools.jar</code>，做法是找到java home变量，然后去加载tools.jar。</p>
 <p>针对2种不同场景，java agent的触发点略有不同。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 启动时</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">premain</span><span class="params">(String args, Instrumentation instrumentation)</span> </span>&#123;&#125;;</span><br><span class="line"><span class="comment">// 动态attach</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">agentmain</span><span class="params">(String args, Instrumentation instrumentation)</span> </span>&#123;&#125;;</span><br></pre></td></tr></table></figure>
-<p>我们要做的工作就是利用这个<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/instrument/Instrumentation.html" target="_blank" rel="external"><code>Instrumentation</code></a>对象上提供的方法。</p>
+<p>我们要做的工作就是利用这个<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/instrument/Instrumentation.html" target="_blank" rel="noopener"><code>Instrumentation</code></a>对象上提供的方法。</p>
 <p>比如使用<code>addTransformer</code>，我们可以添加一个修改字节码的对象上去</p>
 <ul>
 <li>当加载一个class文件时，会进行拦截，对字节码做修改。</li>
 <li>还可以在运行期对已加载类的字节码做变更</li>
 </ul>
 <p>因为Java里面的类、对象通常和classloader有关系，不同的classloader可以加载同一个类，所以会对<code>ClassFileTransformer</code>的归属有疑问？实际上呢，java agent总是由AppClassLoader进行加载的，<code>premain</code>和<code>agentmain</code>也都是在AppClassLoader里触发的，但是它修改类的效果可以超出当前的classloader。我的理解是，这个<code>ClassFileTransformer</code>只是输出一堆字节码、二进制文件，并不涉及到类加载的问题，所以2者不冲突。不过要注意的是，如果调用<code>retransformClasses(Class&lt;?&gt;... classes)</code>修改已经加载过的类，这个<code>class</code>对象不要用<code>Class.forname(&quot;A&quot;)</code>，因为<code>Class</code>对象是在当前AppClassLoader里创建的，所以<code>ClassFileTransformer</code>只会影响AppClassLoader里的<code>A</code>，对于其他ClassLoader加载的<code>A</code>，并不起作用。这个时候需要利用<code>Instrumentation</code>对象，简单点可以先<code>getAllLoadedClasses()</code>获得所有类集合，再通过比较class name的方式进行过滤，然后再retransform。又或者你将<code>Instrumentation</code>对象保存起来，将来需要用到的时候，再拿出来使用等等。花样很多，可以自由组合！</p>
-<p>还有一个需要注意的是<a href="http://openjdk.java.net/jeps/159" target="_blank" rel="external">JEP 159: Enhanced Class Redefinition</a>。修改已经加载过的类是有限制条件的，虽然有jep在追踪这个问题，但感觉openjdk对这个需求热情不高，短时间内怕是不会有进展（它不在任何已经规划的发行版feature中）</p>
-<p>另外有一个注意点是关于retransform（还有一个redefineClasses，这个用的倒是不多）。关于它的细节可以自行google，infoq上也有一篇<a href="https://www.infoq.cn/article/javaagent-illustrated" target="_blank" rel="external">解释</a>仅供参考。</p>
-<p>我写了一个简单的<a href="https://github.com/XHao/java-agent-test/tree/master/javaagent" target="_blank" rel="external">Repo</a>，希望能帮助理解。</p>
+<p>还有一个需要注意的是<a href="http://openjdk.java.net/jeps/159" target="_blank" rel="noopener">JEP 159: Enhanced Class Redefinition</a>。修改已经加载过的类是有限制条件的，虽然有jep在追踪这个问题，但感觉openjdk对这个需求热情不高，短时间内怕是不会有进展（它不在任何已经规划的发行版feature中）</p>
+<p>另外有一个注意点是关于retransform（还有一个redefineClasses，这个用的倒是不多）。关于它的细节可以自行google，infoq上也有一篇<a href="https://www.infoq.cn/article/javaagent-illustrated" target="_blank" rel="noopener">解释</a>仅供参考。</p>
+<p>我写了一个简单的<a href="https://github.com/XHao/java-agent-test/tree/master/javaagent" target="_blank" rel="noopener">Repo</a>，希望能帮助理解。</p>
 <p>比如现在有1个ClassFileTransformer <code>A</code>，它会给一个类增加新的方法，那么</p>
 <ul>
 <li>如果A是在premain里加入到list里去的，则可以<code>canRetransform=true</code></li>
@@ -252,7 +254,7 @@
 <li>将某个jar加入到classpath里供AppClassloader去加载</li>
 </ul>
 <hr>
-<p><a name="jattach" href="https://github.com/apangin/jattach" target="_blank" rel="external">apangin/jattach</a>可以不依赖jdk完成load agent功能</p>
+<p><a name="jattach" href="https://github.com/apangin/jattach" target="_blank" rel="noopener">apangin/jattach</a>可以不依赖jdk完成load agent功能</p>
 
       
     </div>
@@ -312,7 +314,7 @@
 
     </div>
     
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
 
 
 <script>
@@ -328,8 +330,8 @@
 		open_in_new: false
 	}
 </script>
-<script src="//7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
-<script src="/js/main.js" type="text/javascript"></script>
+<script src="//7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
 
 
 

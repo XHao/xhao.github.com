@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Property Grid | Welcome to XHao&#39;s Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="这是以前在sap实习做项目的时候遇到的问题：studio中的property grid的定制。本身并不是很复杂，微软本身提供的editor具备很强的扩展性，只需要你用心地了解其使用方法，大概就齐了。└(^o^)┘">
+<meta name="keywords" content=".net">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Property Grid">
 <meta property="og:url" content="https://xhao.io/2013/12/propertygrid/index.html">
-<meta property="og:site_name" content="Welcome to XHao's Home">
+<meta property="og:site_name" content="Welcome to XHao&#39;s Home">
 <meta property="og:description" content="这是以前在sap实习做项目的时候遇到的问题：studio中的property grid的定制。本身并不是很复杂，微软本身提供的editor具备很强的扩展性，只需要你用心地了解其使用方法，大概就齐了。└(^o^)┘">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2020-07-23T15:25:07.500Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Property Grid">
@@ -22,9 +24,9 @@
   
     <link rel="icon" href="/img/favicon.ico">
   
-  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
 </head>
-
+</html>
 <body>
   <div id="container">
     <div class="left-col">
@@ -214,8 +216,8 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>这是以前在sap实习做项目的时候遇到的问题：studio中的property grid的定制。本身并不是很复杂，微软本身提供的editor具备很强的扩展性，只需要你用心地了解其使用方法，大概就齐了。└(^o^)┘<br><a id="more"></a><br>.net项目中，针对property grid下拉框的定制，不用太多废话，贴段代码：  </p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"> class MyUIEditor:UITypeEditor &#10;&#65371;&#10;&#9;public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context)&#10;&#9;&#123;&#10;&#9;&#9;return System.Drawing.Design.UITypeEditorEditStyle.DropDown&#65307;&#10;&#9;&#125;//&#36825;&#37324;&#26377;3&#31181;editstyle&#10;&#9;&#10;&#9;public override object EditValue(ITypeDescriptorContext context&#65292;IServiceProvider provider,object value)&#10;&#9;&#123;&#10;&#9;&#9;System.Windows.Forms.Design.IWindowsFormsEditorService iws=&#10;&#9;&#9;&#9;rSystem.Windows.Forms.Design.IWindowsFormsEditorService)provider.GetService(typeof(System.Windows.Forms.Design.IWindowsFormsEditorService))&#65307;&#10;&#9;&#9;if(iws!=null)&#10;&#9;&#9;&#123;&#10;&#9;&#9;&#9;mycontrol con = new mycontrol();//&#22240;&#20026;&#26159;&#33258;&#24049;&#23450;&#21046;&#30340;control&#29702;&#35770;&#19978;&#21487;&#20197;&#23454;&#29616;&#21508;&#31181;&#35201;&#27714;&#10;&#9;&#9;&#9;con.setcontainer(iws);//con&#38656;&#35201;&#23454;&#29616;&#36825;&#20010;&#26041;&#27861;&#12290;&#10;&#9;&#9;&#9;iws.DropDownControl(con);//&#36825;&#37324;&#38656;&#35201;&#32465;&#23450;&#10;&#9;&#9;&#125;&#10;&#9;&#9;return value&#65307;&#10;&#9;&#125; &#10;&#65373;</span><br></pre></td></tr></table></figure>
-<p>UITypeEditor提供了设计值编辑器的基类，参考<a href="http://msdn.microsoft.com/zh-cn/library/System.Drawing.Design.UITypeEditor(v=vs.110).aspx" target="_blank" rel="external">MSDN</a>。OK，就如此简单。</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">class</span> <span class="title">MyUIEditor</span>:<span class="title">UITypeEditor</span> </span><br><span class="line">｛</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">override</span> UITypeEditorEditStyle <span class="title">GetEditStyle</span>(<span class="params">ITypeDescriptorContext context</span>)</span></span><br><span class="line"><span class="function"></span>	&#123;</span><br><span class="line">		<span class="keyword">return</span> System.Drawing.Design.UITypeEditorEditStyle.DropDown；</span><br><span class="line">	&#125;<span class="comment">//这里有3种editstyle</span></span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">object</span> <span class="title">EditValue</span>(<span class="params">ITypeDescriptorContext context，IServiceProvider provider,<span class="keyword">object</span> <span class="keyword">value</span></span>)</span></span><br><span class="line"><span class="function"></span>	&#123;</span><br><span class="line">		System.Windows.Forms.Design.IWindowsFormsEditorService iws=</span><br><span class="line">			rSystem.Windows.Forms.Design.IWindowsFormsEditorService)provider.GetService(<span class="keyword">typeof</span>(System.Windows.Forms.Design.IWindowsFormsEditorService))；</span><br><span class="line">		<span class="keyword">if</span>(iws!=<span class="literal">null</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			mycontrol con = <span class="keyword">new</span> mycontrol();<span class="comment">//因为是自己定制的control理论上可以实现各种要求</span></span><br><span class="line">			con.setcontainer(iws);<span class="comment">//con需要实现这个方法。</span></span><br><span class="line">			iws.DropDownControl(con);<span class="comment">//这里需要绑定</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">value</span>；</span><br><span class="line">	&#125; </span><br><span class="line">｝</span><br></pre></td></tr></table></figure>
+<p>UITypeEditor提供了设计值编辑器的基类，参考<a href="http://msdn.microsoft.com/zh-cn/library/System.Drawing.Design.UITypeEditor(v=vs.110).aspx" target="_blank" rel="noopener">MSDN</a>。OK，就如此简单。</p>
 
       
     </div>
@@ -284,7 +286,7 @@
 
     </div>
     
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
 
 
 <script>
@@ -300,8 +302,8 @@
 		open_in_new: false
 	}
 </script>
-<script src="//7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
-<script src="/js/main.js" type="text/javascript"></script>
+<script src="//7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
 
 
 

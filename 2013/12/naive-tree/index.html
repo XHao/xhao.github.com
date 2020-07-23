@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Sql树状结构 | Welcome to XHao&#39;s Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="最近看到了一本好书《SQL Antipatterns》，作者（Bill Karwin）非常厉害，他在关系型数据库上的开发经验非常丰富，总结出了sql设计时经常陷入的误区（反模式）。这本书的在线版本：SQL Antipatterns，非常值得一读！！！">
+<meta name="keywords" content="sql">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Sql树状结构">
 <meta property="og:url" content="https://xhao.io/2013/12/naive-tree/index.html">
-<meta property="og:site_name" content="Welcome to XHao's Home">
+<meta property="og:site_name" content="Welcome to XHao&#39;s Home">
 <meta property="og:description" content="最近看到了一本好书《SQL Antipatterns》，作者（Bill Karwin）非常厉害，他在关系型数据库上的开发经验非常丰富，总结出了sql设计时经常陷入的误区（反模式）。这本书的在线版本：SQL Antipatterns，非常值得一读！！！">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2020-07-23T15:25:07.500Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Sql树状结构">
@@ -22,9 +24,9 @@
   
     <link rel="icon" href="/img/favicon.ico">
   
-  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
 </head>
-
+</html>
 <body>
   <div id="container">
     <div class="left-col">
@@ -213,11 +215,11 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>最近看到了一本好书《SQL Antipatterns》，作者（Bill Karwin）非常厉害，他在关系型数据库上的开发经验非常丰富，总结出了sql设计时经常陷入的误区（反模式）。这本书的在线版本：<a href="http://edu.ercess.co.in/ebooks/SQL/SQL-Antipatterns-Avoiding-the-Pitfalls-of-Database-Programming.pdf" target="_blank" rel="external">SQL Antipatterns</a>，非常值得一读！！！<br><a id="more"></a><br>现在有一张employee表：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator"><span class="keyword">create</span> <span class="keyword">table</span> employee (</span><br><span class="line">	<span class="keyword">id</span> <span class="built_in">int</span> auto_increment primary <span class="keyword">key</span>,</span><br><span class="line">	naemployeeme <span class="built_in">varchar</span>(<span class="number">50</span>),</span><br><span class="line">	manager_id <span class="built_in">int</span>,</span><br><span class="line">	foreign <span class="keyword">key</span> (manager_id) <span class="keyword">references</span> employee(<span class="keyword">id</span>)</span><br><span class="line">);</span></span><br></pre></td></tr></table></figure>
+        <p>最近看到了一本好书《SQL Antipatterns》，作者（Bill Karwin）非常厉害，他在关系型数据库上的开发经验非常丰富，总结出了sql设计时经常陷入的误区（反模式）。这本书的在线版本：<a href="http://edu.ercess.co.in/ebooks/SQL/SQL-Antipatterns-Avoiding-the-Pitfalls-of-Database-Programming.pdf" target="_blank" rel="noopener">SQL Antipatterns</a>，非常值得一读！！！<br><a id="more"></a><br>现在有一张employee表：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> employee (</span><br><span class="line">	<span class="keyword">id</span> <span class="built_in">int</span> auto_increment primary <span class="keyword">key</span>,</span><br><span class="line">	naemployeeme <span class="built_in">varchar</span>(<span class="number">50</span>),</span><br><span class="line">	manager_id <span class="built_in">int</span>,</span><br><span class="line">	<span class="keyword">foreign</span> <span class="keyword">key</span> (manager_id) <span class="keyword">references</span> employee(<span class="keyword">id</span>)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
 <p>表中的每条记录，都保存这一个manager_id，用来关联自己的上司。如果将这种组织关系画出来，就是一个像金字塔般的结构——树。而在设计employe表时，我采用了外键约束，用来串联这种内在关系。这种设计这被称为“邻接表”。</p>
 <p>此时，查询某个经理的直接下属、某个下属的直接领导、增加一个职员都是比较轻松的工作，这也是树的特性（所以经常会用在搜索中）；但是这里存在一种比较困难的查询：某个经理的所有下属（包括每层的员工）？其中第一层的下属很常见，  </p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator"><span class="keyword">select</span> e2.<span class="keyword">id</span>, e2.<span class="keyword">name</span></span><br><span class="line"><span class="keyword">from</span> employee e1 <span class="keyword">left</span> <span class="keyword">join</span> employee e2 </span><br><span class="line"><span class="keyword">on</span> e2.manager_id = e1.<span class="keyword">id</span> <span class="keyword">and</span> e1.<span class="keyword">id</span> = <span class="string">'张三'</span>;</span> <span class="comment">--一层，直接领导</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> e2.id, e2.name</span><br><span class="line"><span class="keyword">from</span> employee e1 <span class="keyword">left</span> <span class="keyword">join</span> employee e2 </span><br><span class="line"><span class="keyword">on</span> e2.manager_id = e1.id <span class="keyword">and</span> e1.id = <span class="string">'张三'</span>; <span class="comment">--一层，直接领导</span></span><br></pre></td></tr></table></figure>
 <p>但是，如果想保证搜索结果的完整，可能就要用到union，可能还需要上层应用程序的支持，即便如此，还有出错的风险。这种代价是很高的。  </p>
 <p>这里存在的反模式类型叫做依赖父节点。虽然很多人都喜欢使用邻接表，但它的使用范围是有限的，需要谨慎设计。（<strong>说到底，很多设计都应该做到因地制宜，需要权衡各方面的优劣势，万能钥匙很少见的。</strong>）  </p>
 <p>为了解决实际问题，作者提到了一些替代方案。这些方案都适当增加了设计的复杂度，但却降低了查询的困难。    </p>
@@ -227,7 +229,7 @@
 <li>3.嵌套集，这是一个聪明的设计。依然，我们不存储父节点的id。这回使用2个属性，left_id 小于｛id|id∈后代节点｝小于 right_id。呵呵，在这数值区间中的节点即当前节点的子节点。不过在查询直接父节点，稍显复杂，需要保证2个节点之间不存在其他节点。缺陷？部分查询复杂、增删节点复杂。  </li>
 <li>4.闭包集，一个通用设计。不过它需要2张表了，因为它不再纠结于用一张表同时解决信息存储和结构的存储。将所有父子关系移到新表中。</li>
 </ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator"><span class="keyword">create</span> <span class="keyword">table</span> employeeRelation (</span><br><span class="line">manager_id <span class="built_in">int</span> ,</span><br><span class="line">employee_id <span class="built_in">int</span> ,</span><br><span class="line">primary <span class="keyword">key</span> (manager_id, employee_id),</span><br><span class="line">foreign <span class="keyword">key</span> (manager_id) <span class="keyword">references</span> employee (<span class="keyword">id</span>),</span><br><span class="line">foreign <span class="keyword">key</span> (employee_id) <span class="keyword">references</span> employee (<span class="keyword">id</span>)</span><br><span class="line">);</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> employeeRelation (</span><br><span class="line">manager_id <span class="built_in">int</span> ,</span><br><span class="line">employee_id <span class="built_in">int</span> ,</span><br><span class="line">primary <span class="keyword">key</span> (manager_id, employee_id),</span><br><span class="line"><span class="keyword">foreign</span> <span class="keyword">key</span> (manager_id) <span class="keyword">references</span> employee (<span class="keyword">id</span>),</span><br><span class="line"><span class="keyword">foreign</span> <span class="keyword">key</span> (employee_id) <span class="keyword">references</span> employee (<span class="keyword">id</span>)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
 <p>外键的应用保证了数据库的引用完整性，查询也优化了，也便于理解了。还有一个优点是在调整组织结构关系时，不会影响到employee表中的基本属性，灵活性大大提升。不过这种设计的前提是需要额外的表。说起来，我更喜欢这种直接的方式。  </p>
 <p>当然这些设计模型在某些特定场合都有可能成为合理的设计，或者说可行的设计，需要使用者自己去甄别。如果需要更多地了解数据库中层级结构的设计，可以Google更多的文献。</p>
 
@@ -298,7 +300,7 @@
 
     </div>
     
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
 
 
 <script>
@@ -314,8 +316,8 @@
 		open_in_new: false
 	}
 </script>
-<script src="//7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
-<script src="/js/main.js" type="text/javascript"></script>
+<script src="//7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
 
 
 
