@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>归并排序 | Welcome to XHao&#39;s Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="归并排序是基础的排序算法之一，算法课中最先接触的一类算法。作为一个经典的算法，它有很多特性吸引人们去研究。不仅在于其分治思想的应用，也在于其优化空间复杂度的研究。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="归并排序">
+<meta property="og:url" content="https://xhao.io/2014/02/merge-sort/index.html">
+<meta property="og:site_name" content="Welcome to XHao's Home">
+<meta property="og:description" content="归并排序是基础的排序算法之一，算法课中最先接触的一类算法。作为一个经典的算法，它有很多特性吸引人们去研究。不仅在于其分治思想的应用，也在于其优化空间复杂度的研究。">
+<meta property="og:updated_time" content="2020-07-23T15:25:07.501Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="归并排序">
+<meta name="twitter:description" content="归并排序是基础的排序算法之一，算法课中最先接触的一类算法。作为一个经典的算法，它有很多特性吸引人们去研究。不仅在于其分治思想的应用，也在于其优化空间复杂度的研究。">
+  
+    <link rel="alternative" href="/atom.xml" title="Welcome to XHao&#39;s Home" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/img/neko.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Xie Hao</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/instagram">相册</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/XHao" title="github">github</a>
+					        
+								<a class="linkedin" target="_blank" href="https://cn.linkedin.com/pub/%E6%98%8A-%E8%B0%A2/30/70a/245" title="linkedin">linkedin</a>
+					        
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+								<a class="mail" target="_blank" href="mailto:sei_xh2006@126.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/net/" style="font-size: 10px;">.net</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/linux/" style="font-size: 16.67px;">linux</a> <a href="/tags/liquibase/" style="font-size: 10px;">liquibase</a> <a href="/tags/performance/" style="font-size: 16.67px;">performance</a> <a href="/tags/ruby/" style="font-size: 13.33px;">ruby</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/sql/" style="font-size: 16.67px;">sql</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a>
+					</div>
+				</section>
+				
+				
+				
+
+				
+				
+				<section class="switch-part switch-part3">
+				
+					<div id="js-aboutme">生活在上海的工程师</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Xie Hao</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+			
+				<img lazy-src="/img/neko.jpg" class="js-avatar">
+			
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Xie Hao</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/instagram">相册</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/XHao" title="github">github</a>
+			        
+						<a class="linkedin" target="_blank" href="https://cn.linkedin.com/pub/%E6%98%8A-%E8%B0%A2/30/70a/245" title="linkedin">linkedin</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="mail" target="_blank" href="mailto:sei_xh2006@126.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-merge-sort" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/02/merge-sort/" class="article-date">
+  	<time datetime="2014-02-09T16:00:00.000Z" itemprop="datePublished">2014-02-10</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      归并排序
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>归并排序是基础的排序算法之一，算法课中最先接触的一类算法。作为一个经典的算法，它有很多特性吸引人们去研究。不仅在于其分治思想的应用，也在于其优化空间复杂度的研究。<br><a id="more"></a></p>
+<h2 id="归并排序实现"><a href="#归并排序实现" class="headerlink" title="归并排序实现"></a>归并排序实现</h2><p>首先描述下它，对于任意的有N个元素的数组，将其排序成功的时间复杂度是NlogN，空间复杂度是N。传统的两路归并是需要额外的辅助空间的，尤其是N很大时，这种开销有时候会变的不可接受。而当我们尝试实现原地排序（不需要或者利用很小的辅助空间）时，算法实现的复杂度也随之上升了。在<a href="#tips">经典</a>中，<strong>Knuth</strong>提到了一种很巧妙的方法，通过在排序数组中构造出辅助空间。</p>
+<p>假设，有2个已排序数组A和B，按照sqrt(N)的大小，分成若干段。这时A和B的最后一段(A(k)、B(l))就包含了2个数组中可能的最大元素。此时如果做一个merge（归并）动作，按照从小到大的顺序，将它们排列到A(k)和B(l)中，B(l)因为存放较大值，可明确一点是，它现在拥有了2个数组的最大元素（归并后集合的最大值），将它用来做辅助空间有一个优势，就是不管怎么merge，它所包含的元素是不会变化的。</p>
+<p>下面的归并动作，就是传统的2路归并了。这里需要点预处理，将（除了B(l)）数据段都排好序（或者说，按照数据段中的最小元素整体排序）。  </p>
+<pre><code>为什么呢？这里其实就涉及到算法的合理性。如何论证，A，B大元素、小元素的最终排布
+</code></pre><p>在完成两两相邻块的归并后，除了B(l)，其他数据已经是OK了，所以我们还需要对B(l)进行一次调整。按照这种思路，是可以实现原地归并排序的，但在实现过程中，还是有点复杂的。</p>
+<p>除此之外有一个相对容易理解以及实现的方法，就是在归并过程中，移动一个“区间”，而非原来的单个元素。不多解释了，直接将代码贴出来。  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">merge</span><span class="params">(Comparable[] array, <span class="keyword">int</span> start, <span class="keyword">int</span> mid, <span class="keyword">int</span> end)</span> </span>&#123;</span><br><span class="line">	<span class="comment">// 定义两个移动的指针</span></span><br><span class="line">	<span class="keyword">int</span> i = start;</span><br><span class="line">	<span class="keyword">int</span> j = mid + <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">int</span> old_j = -<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">while</span> (i &lt;= mid &amp;&amp; j &lt;= end) &#123;</span><br><span class="line">		<span class="keyword">if</span> (SortHelper.less(array[i], array[j])) &#123;</span><br><span class="line">			<span class="keyword">if</span> (old_j != -<span class="number">1</span>) &#123;</span><br><span class="line">				reverse(array, i, old_j, j - <span class="number">1</span>);</span><br><span class="line">				i = i + j - old_j;</span><br><span class="line">				mid = mid + j - old_j;</span><br><span class="line">				old_j = -<span class="number">1</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			i++;</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">if</span> (old_j == -<span class="number">1</span>)</span><br><span class="line">				old_j = j;</span><br><span class="line">			<span class="keyword">else</span> </span><br><span class="line">				j++;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (old_j != -<span class="number">1</span>)</span><br><span class="line">		reverse(array, i, old_j, j - <span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">reverse</span><span class="params">(Comparable[] array, <span class="keyword">int</span> i, <span class="keyword">int</span> old_j, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">	exch(array, i, old_j - <span class="number">1</span>);</span><br><span class="line">	exch(array, old_j, j);</span><br><span class="line">	exch(array, i, j);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">exch</span><span class="params">(Comparable[] array, <span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> mid = (j - i) / <span class="number">2</span> + i;</span><br><span class="line">	<span class="keyword">while</span> (i &lt;= mid) &#123;</span><br><span class="line">		SortHelper.exch(array, i++, j--);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这段代码中，有一个明显的问题是效率下降，主要集中在了交换区间的过程中。这里用的“手摇法”，由于存在3次旋转，在极端情况下，时间复杂度很高。当然，如何交换区间，也可以设计出精巧的策略，需要仔细研究。</p>
+<p>PS:将长度为N的数组排序，任何基于比较的算法至少需要lg(N!)~NlgN次比较次数。这其实就是在研究归并排序过程中，得出的一个重要结论，它指示了我们，<strong>不管怎么调整算法，基于比较的排序有一个比较次数的下限</strong>。</p>
+<hr>
+<p><a name="tips" href="http://www-cs-faculty.stanford.edu/~uno/taocp.html" target="_blank" rel="external">经典：这里指的是 The Art of Computer Programming（TAOCP）。</a></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/02/string-value/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          关于反射修改String
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/01/multicolumn-attributes/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Sql多值属性的处理</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+
+
+
+<section id="comments">
+  <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'xhao'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2020 Xie Hao
+    	</div>
+      	<div class="footer-right">
+      		<a href="//hexo.io/" target="_blank">Hexo</a>  Theme <a href="//github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a>
+      	</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="//7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-113278033-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+
+  </div>
+</body>
+</html>

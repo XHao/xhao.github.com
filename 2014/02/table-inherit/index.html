@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>数据库设计中表的继承 | Welcome to XHao&#39;s Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="单表继承将所有相关的类型都存在一张表中，为所有类型的所有属性都保留一列。所以，当系统中新增添了一个子类型时，我们都需要将它的属性逐一添加进数据库表中，也就是改变表的结构，添加新的列。同时要保证2点：必须有一列能够区分出每一行的子类型；列允许空值。
+1234567891011121314CREATE TABLE Issues (	issue_id SERIAL PRIMARY KEY,	report">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库设计中表的继承">
+<meta property="og:url" content="https://xhao.io/2014/02/table-inherit/index.html">
+<meta property="og:site_name" content="Welcome to XHao's Home">
+<meta property="og:description" content="单表继承将所有相关的类型都存在一张表中，为所有类型的所有属性都保留一列。所以，当系统中新增添了一个子类型时，我们都需要将它的属性逐一添加进数据库表中，也就是改变表的结构，添加新的列。同时要保证2点：必须有一列能够区分出每一行的子类型；列允许空值。
+1234567891011121314CREATE TABLE Issues (	issue_id SERIAL PRIMARY KEY,	report">
+<meta property="og:updated_time" content="2020-07-23T15:25:07.505Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据库设计中表的继承">
+<meta name="twitter:description" content="单表继承将所有相关的类型都存在一张表中，为所有类型的所有属性都保留一列。所以，当系统中新增添了一个子类型时，我们都需要将它的属性逐一添加进数据库表中，也就是改变表的结构，添加新的列。同时要保证2点：必须有一列能够区分出每一行的子类型；列允许空值。
+1234567891011121314CREATE TABLE Issues (	issue_id SERIAL PRIMARY KEY,	report">
+  
+    <link rel="alternative" href="/atom.xml" title="Welcome to XHao&#39;s Home" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/img/neko.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Xie Hao</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/instagram">相册</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/XHao" title="github">github</a>
+					        
+								<a class="linkedin" target="_blank" href="https://cn.linkedin.com/pub/%E6%98%8A-%E8%B0%A2/30/70a/245" title="linkedin">linkedin</a>
+					        
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+								<a class="mail" target="_blank" href="mailto:sei_xh2006@126.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/net/" style="font-size: 10px;">.net</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/linux/" style="font-size: 16.67px;">linux</a> <a href="/tags/liquibase/" style="font-size: 10px;">liquibase</a> <a href="/tags/performance/" style="font-size: 16.67px;">performance</a> <a href="/tags/ruby/" style="font-size: 13.33px;">ruby</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/sql/" style="font-size: 16.67px;">sql</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a>
+					</div>
+				</section>
+				
+				
+				
+
+				
+				
+				<section class="switch-part switch-part3">
+				
+					<div id="js-aboutme">生活在上海的工程师</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Xie Hao</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+			
+				<img lazy-src="/img/neko.jpg" class="js-avatar">
+			
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Xie Hao</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/instagram">相册</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/XHao" title="github">github</a>
+			        
+						<a class="linkedin" target="_blank" href="https://cn.linkedin.com/pub/%E6%98%8A-%E8%B0%A2/30/70a/245" title="linkedin">linkedin</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="mail" target="_blank" href="mailto:sei_xh2006@126.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-table-inherit" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/02/table-inherit/" class="article-date">
+  	<time datetime="2014-02-21T16:00:00.000Z" itemprop="datePublished">2014-02-22</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      数据库设计中表的继承
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql/">sql</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="单表继承"><a href="#单表继承" class="headerlink" title="单表继承"></a>单表继承</h3><p>将所有相关的类型都存在一张表中，为所有类型的所有属性都保留一列。所以，当系统中新增添了一个子类型时，我们都需要将它的属性逐一添加进数据库表中，也就是改变表的结构，添加新的列。同时要保证2点：必须有一列能够区分出每一行的子类型；列允许空值。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> Issues (</span><br><span class="line">	issue_id <span class="built_in">SERIAL</span> PRIMARY <span class="keyword">KEY</span>,</span><br><span class="line">	reported_by <span class="built_in">BIGINT</span> <span class="keyword">UNSIGNED</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">	product_id <span class="built_in">BIGINT</span> <span class="keyword">UNSIGNED</span>,</span><br><span class="line">	<span class="keyword">priority</span> <span class="built_in">VARCHAR</span>(<span class="number">20</span>),</span><br><span class="line">	version_resolved <span class="built_in">VARCHAR</span>(<span class="number">20</span>),</span><br><span class="line">	<span class="keyword">status</span> <span class="built_in">VARCHAR</span>(<span class="number">20</span>),</span><br><span class="line">	issue_type <span class="built_in">VARCHAR</span>(<span class="number">10</span>), <span class="comment">-- BUG or FEATURE</span></span><br><span class="line">	severity <span class="built_in">VARCHAR</span>(<span class="number">20</span>), <span class="comment">-- only for bugs</span></span><br><span class="line">	version_affected <span class="built_in">VARCHAR</span>(<span class="number">20</span>), <span class="comment">-- only for bugs</span></span><br><span class="line">	sponsor <span class="built_in">VARCHAR</span>(<span class="number">50</span>), <span class="comment">-- only for feature requests</span></span><br><span class="line">	FOREIGN <span class="keyword">KEY</span> (reported_by) <span class="keyword">REFERENCES</span> Accounts(account_id)</span><br><span class="line">	FOREIGN <span class="keyword">KEY</span> (product_id) <span class="keyword">REFERENCES</span> Products(product_id)</span><br><span class="line">);</span></span><br></pre></td></tr></table></figure>
+<h3 id="实体表继承"><a href="#实体表继承" class="headerlink" title="实体表继承"></a>实体表继承</h3><p>为每个子类型建一张独立的表。每个表都包含属于父类的属性，同时也有子表所特有的属性。这种设计也比较简单明了，无非就是一种类型一张表。所以我们缺少元数据，搞清楚子表之间的关系（我们会发现数据库中某些表有重复的属性，却不知其缘由）。</p>
+<h3 id="类表继承"><a href="#类表继承" class="headerlink" title="类表继承"></a>类表继承</h3><p>首先创建一张父表，包含了公共属性。而其他的子表通过外键去和父表关联。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> Issues (</span><br><span class="line">	issue_id <span class="built_in">SERIAL</span> PRIMARY <span class="keyword">KEY</span>,</span><br><span class="line">	reported_by <span class="built_in">BIGINT</span> <span class="keyword">UNSIGNED</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">	product_id <span class="built_in">BIGINT</span> <span class="keyword">UNSIGNED</span>,</span><br><span class="line">	<span class="keyword">priority</span> <span class="built_in">VARCHAR</span>(<span class="number">20</span>),</span><br><span class="line">	version_resolved <span class="built_in">VARCHAR</span>(<span class="number">20</span>),</span><br><span class="line">	<span class="keyword">status</span> <span class="built_in">VARCHAR</span>(<span class="number">20</span>),</span><br><span class="line">	FOREIGN <span class="keyword">KEY</span> (reported_by) <span class="keyword">REFERENCES</span> Accounts(account_id),</span><br><span class="line">	FOREIGN <span class="keyword">KEY</span> (product_id) <span class="keyword">REFERENCES</span> Products(product_id)</span><br><span class="line">);</span></span><br><span class="line"><span class="operator"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> Bugs (</span><br><span class="line">	issue_id <span class="built_in">BIGINT</span> <span class="keyword">UNSIGNED</span> PRIMARY <span class="keyword">KEY</span>,</span><br><span class="line">	severity <span class="built_in">VARCHAR</span>(<span class="number">20</span>),</span><br><span class="line">	version_affected <span class="built_in">VARCHAR</span>(<span class="number">20</span>),</span><br><span class="line">	FOREIGN <span class="keyword">KEY</span> (issue_id) <span class="keyword">REFERENCES</span> Issues(issue_id)</span><br><span class="line">);</span></span><br><span class="line"><span class="operator"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> FeatureRequests (</span><br><span class="line">	issue_id <span class="built_in">BIGINT</span> <span class="keyword">UNSIGNED</span> PRIMARY <span class="keyword">KEY</span>,</span><br><span class="line">	sponsor <span class="built_in">VARCHAR</span>(<span class="number">50</span>),</span><br><span class="line">	FOREIGN <span class="keyword">KEY</span> (issue_id) <span class="keyword">REFERENCES</span> Issues(issue_id)</span><br><span class="line">);</span></span><br></pre></td></tr></table></figure>
+<p>在这种设计中，数据库的表之间的父子关系由元数据来确保，是一个不错的设计，唯一没有解决的是扩展问题。当需要经常增加新属性时，还是不得不改变表结构，增加新的列。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/02/sql-rownum/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          oracle中的rownum
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/02/string-value/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">关于反射修改String</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+
+
+
+<section id="comments">
+  <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'xhao'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2020 Xie Hao
+    	</div>
+      	<div class="footer-right">
+      		<a href="//hexo.io/" target="_blank">Hexo</a>  Theme <a href="//github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a>
+      	</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="//7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-113278033-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+
+  </div>
+</body>
+</html>
