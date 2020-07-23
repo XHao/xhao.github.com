@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>扩展spring的xml | Welcome to XHao&#39;s Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="spring框架在java世界应用广泛，IOC、AOP，包括最近的spring boot等，体系庞大。平时spring应用很少，也没特别的经验要说。但在适配自己的框架和spring方面，也摸索了几天，有了一点心得。所有的适配都是基于spring框架对外开放的钩子…今天要说的比较简单，是关于xml的">
+<meta name="keywords" content="java,spring">
+<meta property="og:type" content="article">
+<meta property="og:title" content="扩展spring的xml">
+<meta property="og:url" content="https://xhao.io/2015/08/spring-extension/index.html">
+<meta property="og:site_name" content="Welcome to XHao&#39;s Home">
+<meta property="og:description" content="spring框架在java世界应用广泛，IOC、AOP，包括最近的spring boot等，体系庞大。平时spring应用很少，也没特别的经验要说。但在适配自己的框架和spring方面，也摸索了几天，有了一点心得。所有的适配都是基于spring框架对外开放的钩子…今天要说的比较简单，是关于xml的">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-07-23T15:25:07.505Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="扩展spring的xml">
+<meta name="twitter:description" content="spring框架在java世界应用广泛，IOC、AOP，包括最近的spring boot等，体系庞大。平时spring应用很少，也没特别的经验要说。但在适配自己的框架和spring方面，也摸索了几天，有了一点心得。所有的适配都是基于spring框架对外开放的钩子…今天要说的比较简单，是关于xml的">
+  
+    <link rel="alternative" href="/atom.xml" title="Welcome to XHao&#39;s Home" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/img/neko.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Xie Hao</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/instagram">相册</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/XHao" title="github">github</a>
+					        
+								<a class="linkedin" target="_blank" href="https://cn.linkedin.com/pub/%E6%98%8A-%E8%B0%A2/30/70a/245" title="linkedin">linkedin</a>
+					        
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+								<a class="mail" target="_blank" href="mailto:sei_xh2006@126.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/net/" style="font-size: 10px;">.net</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/linux/" style="font-size: 16.67px;">linux</a> <a href="/tags/liquibase/" style="font-size: 10px;">liquibase</a> <a href="/tags/performance/" style="font-size: 16.67px;">performance</a> <a href="/tags/ruby/" style="font-size: 13.33px;">ruby</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/sql/" style="font-size: 16.67px;">sql</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a>
+					</div>
+				</section>
+				
+				
+				
+
+				
+				
+				<section class="switch-part switch-part3">
+				
+					<div id="js-aboutme">生活在上海的工程师</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Xie Hao</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+			
+				<img lazy-src="/img/neko.jpg" class="js-avatar">
+			
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Xie Hao</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/instagram">相册</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/XHao" title="github">github</a>
+			        
+						<a class="linkedin" target="_blank" href="https://cn.linkedin.com/pub/%E6%98%8A-%E8%B0%A2/30/70a/245" title="linkedin">linkedin</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="mail" target="_blank" href="mailto:sei_xh2006@126.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-spring-extension" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/08/spring-extension/" class="article-date">
+  	<time datetime="2015-08-28T16:00:00.000Z" itemprop="datePublished">2015-08-29</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      扩展spring的xml
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring/">spring</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>spring框架在java世界应用广泛，IOC、AOP，包括最近的spring boot等，体系庞大。平时spring应用很少，也没特别的经验要说。但在适配自己的框架和spring方面，也摸索了几天，有了一点心得。所有的适配都是基于spring框架对外开放的钩子…今天要说的比较简单，是关于xml的<br><a id="more"></a><br>开发参考了<a href="http://docs.spring.io/autorepo/docs/spring/4.2.x/spring-framework-reference/html/" target="_blank" rel="noopener">spring doc</a></p>
+<h3 id="xml-extension"><a href="#xml-extension" class="headerlink" title="xml extension"></a>xml extension</h3><p>这部分可能是spring最简单和最常见的扩展了，基本包含了4个步骤：</p>
+<ul>
+<li>Authoring an XML schema to describe your custom element(s).</li>
+<li>Coding a custom NamespaceHandler implementation (this is an easy step, don’t worry).</li>
+<li>Coding one or more BeanDefinitionParser implementations (this is where the real work is done).</li>
+<li>Registering the above artifacts with Spring (this too is an easy step).</li>
+</ul>
+<p>1.xml扩展首先要做的是定义xsd，这个可以参考<a href="http://www.w3schools.com/schema/" target="_blank" rel="noopener">语法</a>。你必须先了解xsd schema的规范，当然要玩的更好，还可以多学习下spring xsd的定义。spring的扩展是通过在META-INF下的2个文件起作用：spring.handlers和spring.schemas。</p>
+<p>2.下一步就是注册解析器，在NamespaceHandler的init方法中<code>registerBeanDefinitionParser(&quot;common&quot;, new DefinitionParser());</code>。</p>
+<p>3.BeanDefinitionParser的实现是真正需要下功夫的地方，不过spring也给我们提供了基本的实现AbstractSingleBeanDefinitionParser–&gt;AbstractBeanDefinitionParser–&gt;BeanDefinitionParser，这3个是我经常用到的。</p>
+<p>4.当我们需要处理element下带有子节点时，通常的做法是增加一个<code>FactoryBean</code>，这个类是和beanFactory相关联的</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ComponentBeanDefinitionParser</span> <span class="keyword">extends</span> <span class="title">AbstractBeanDefinitionParser</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> AbstractBeanDefinition <span class="title">parseInternal</span><span class="params">(Element element, ParserContext parserContext)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> parseComponentElement(element);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> AbstractBeanDefinition <span class="title">parseComponentElement</span><span class="params">(Element element)</span> </span>&#123;</span><br><span class="line">		BeanDefinitionBuilder factory = BeanDefinitionBuilder.rootBeanDefinition(ComponentFactoryBean<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">		factory.addPropertyValue(<span class="string">"parent"</span>, parseComponent(element));</span><br><span class="line"></span><br><span class="line">		List&lt;Element&gt; childElements = DomUtils.getChildElementsByTagName(element, <span class="string">"component"</span>);</span><br><span class="line">		<span class="keyword">if</span> (childElements != <span class="keyword">null</span> &amp;&amp; childElements.size() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">			parseChildComponents(childElements, factory);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> factory.getBeanDefinition();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> BeanDefinition <span class="title">parseComponent</span><span class="params">(Element element)</span> </span>&#123;</span><br><span class="line">		BeanDefinitionBuilder component = BeanDefinitionBuilder.rootBeanDefinition(Component<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">		component.addPropertyValue(<span class="string">"name"</span>, element.getAttribute(<span class="string">"name"</span>));</span><br><span class="line">		<span class="keyword">return</span> component.getBeanDefinition();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">parseChildComponents</span><span class="params">(List&lt;Element&gt; childElements, BeanDefinitionBuilder factory)</span> </span>&#123;</span><br><span class="line">		ManagedList&lt;BeanDefinition&gt; children = <span class="keyword">new</span> ManagedList&lt;BeanDefinition&gt;(childElements.size());</span><br><span class="line">			<span class="keyword">for</span> (Element element : childElements) &#123;</span><br><span class="line">				children.add(parseComponentElement(element));</span><br><span class="line">			&#125;</span><br><span class="line">		factory.addPropertyValue(<span class="string">"children"</span>, children);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ComponentFactoryBean</span> <span class="keyword">implements</span> <span class="title">FactoryBean</span>&lt;<span class="title">Component</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> Component parent;</span><br><span class="line">	<span class="keyword">private</span> List&lt;Component&gt; children;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setParent</span><span class="params">(Component parent)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.parent = parent;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setChildren</span><span class="params">(List&lt;Component&gt; children)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.children = children;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Component <span class="title">getObject</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (<span class="keyword">this</span>.children != <span class="keyword">null</span> &amp;&amp; <span class="keyword">this</span>.children.size() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">			<span class="keyword">for</span> (Component child : children) &#123;</span><br><span class="line">				<span class="keyword">this</span>.parent.addComponent(child);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">this</span>.parent;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Class&lt;Component&gt; <span class="title">getObjectType</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> Component<span class="class">.<span class="keyword">class</span></span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isSingleton</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这2段代码中还是很好理解的，<code>DomUtils.getChildElementsByTagName(element, &quot;component&quot;)</code>能够获得子节点，然后再按照老方法去解析。</p>
+<p>5.另一个问题是id的问题，我们虽然在xsd中没有定义id属性，但是当通过BeanFactory.getBean时，依然会提示我们top-level必须有id属性，这是为什么呢？显然是因为spring默认bean是要有id来区分的。但是我们又不愿意在自己的节点上加这个属性，解决办法是auto generate id。在<code>AbstractBeanDefinitionParser</code>中有一个<code>protected String resolveId(Element element, AbstractBeanDefinition definition, ParserContext parserContext) throws BeanDefinitionStoreException</code>方法，只要重写就可以完成，但是必须要小心，这个id是不能出现重复的。</p>
+<p>如果做到这些，基本就完成了spring xml的扩展，并不算难。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/09/java-performance/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          jdk提供的工具类
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/07/java-misuse/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">java中容易忽略的问题（一）</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+
+
+
+<section id="comments">
+  <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'xhao'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2020 Xie Hao
+    	</div>
+      	<div class="footer-right">
+      		<a href="//hexo.io/" target="_blank">Hexo</a>  Theme <a href="//github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a>
+      	</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="//7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-113278033-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+
+  </div>
+</body>
+</html>

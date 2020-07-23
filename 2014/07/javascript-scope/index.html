@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>javascript作用域 | Welcome to XHao&#39;s Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="javascript的作用域和类C语言相比，有点特殊，对于初学者，容易搞错。所以要牢记javascript中的函数运行在它们被定义的作用域里，而不是它们被执行的作用域里">
+<meta name="keywords" content="javascript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javascript作用域">
+<meta property="og:url" content="https://xhao.io/2014/07/javascript-scope/index.html">
+<meta property="og:site_name" content="Welcome to XHao&#39;s Home">
+<meta property="og:description" content="javascript的作用域和类C语言相比，有点特殊，对于初学者，容易搞错。所以要牢记javascript中的函数运行在它们被定义的作用域里，而不是它们被执行的作用域里">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-07-23T15:25:07.501Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="javascript作用域">
+<meta name="twitter:description" content="javascript的作用域和类C语言相比，有点特殊，对于初学者，容易搞错。所以要牢记javascript中的函数运行在它们被定义的作用域里，而不是它们被执行的作用域里">
+  
+    <link rel="alternative" href="/atom.xml" title="Welcome to XHao&#39;s Home" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/img/neko.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Xie Hao</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/instagram">相册</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/XHao" title="github">github</a>
+					        
+								<a class="linkedin" target="_blank" href="https://cn.linkedin.com/pub/%E6%98%8A-%E8%B0%A2/30/70a/245" title="linkedin">linkedin</a>
+					        
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+								<a class="mail" target="_blank" href="mailto:sei_xh2006@126.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/net/" style="font-size: 10px;">.net</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/linux/" style="font-size: 16.67px;">linux</a> <a href="/tags/liquibase/" style="font-size: 10px;">liquibase</a> <a href="/tags/performance/" style="font-size: 16.67px;">performance</a> <a href="/tags/ruby/" style="font-size: 13.33px;">ruby</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/sql/" style="font-size: 16.67px;">sql</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a>
+					</div>
+				</section>
+				
+				
+				
+
+				
+				
+				<section class="switch-part switch-part3">
+				
+					<div id="js-aboutme">生活在上海的工程师</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Xie Hao</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+			
+				<img lazy-src="/img/neko.jpg" class="js-avatar">
+			
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Xie Hao</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/instagram">相册</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/XHao" title="github">github</a>
+			        
+						<a class="linkedin" target="_blank" href="https://cn.linkedin.com/pub/%E6%98%8A-%E8%B0%A2/30/70a/245" title="linkedin">linkedin</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="mail" target="_blank" href="mailto:sei_xh2006@126.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-javascript-scope" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/07/javascript-scope/" class="article-date">
+  	<time datetime="2014-07-30T16:00:00.000Z" itemprop="datePublished">2014-07-31</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      javascript作用域
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>javascript的作用域和类C语言相比，有点特殊，对于初学者，容易搞错。所以要牢记<strong>javascript中的函数运行在它们被定义的作用域里，而不是它们被执行的作用域里</strong><br><a id="more"></a><br>变量的作用域关系到它的可见性和生命周期，在编程的时候，超出作用域的使用范围，会带来可怕的结果。所以，每一门开发语言都会提供相应的服务。我们通常使用的类C语言，采用的是块级作用域（通常就是花括号），在一个代码块中定义的变量，在外部是无法使用的，并且在代码块的内部，变量还会覆盖其同名的外部变量，而一旦超出其作用域，变量就会失效（超出了其生命周期）。但是javascript（js）采用了另外的方式：<strong>在函数内部定义的参数和变量，在外部是看不到的；内部函数总是可以访问它们的外部参数和变量。还是那句话：javascript中的函数运行在它们被定义的作用域里，而不是它们被执行的作用域里。</strong>  </p>
+<p>首先，函数规定了作用域的可见范围，在这一点上，函数很像C语言的花括号。但是，内部函数总是可以访问外部参数和变量，这一下子，就让变量的生命周期延长了（因为可以返回一个内部函数）。js的内部函数不仅包含了一组方法，还能绑定函数外部定义的一些参数和变量，而且它们还不是拷贝。这就是js的强大，它使用函数就非常简洁地完成了数据的封装、代码的复用、模块化的设计。对于用惯了C++、java的人，很容易陷入误区，经常用错变量。所以，我们应该去仔细地了解下，js是怎么处理的。  </p>
+<h2 id="预解析"><a href="#预解析" class="headerlink" title="预解析"></a>预解析</h2><p>js是脚本语言，它是解释执行的，也就是从上到下逐行进行翻译并执行。但是它也会预解析，js引擎会处理var和function</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">add(<span class="number">1</span>);</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">a</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(a);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//1</span></span><br><span class="line"><span class="built_in">console</span>.log(a);</span><br><span class="line"><span class="keyword">var</span> a = <span class="number">1</span>;</span><br><span class="line"><span class="built_in">console</span>.log(b);</span><br><span class="line">b=<span class="number">2</span>;</span><br><span class="line"><span class="comment">//b is not defined</span></span><br></pre></td></tr></table></figure>
+<p>但是预解析并不涉及赋值操作，所以局部变量会返回undefined。现在，不妨看看下面这个例子</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">'hello'</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">echo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">     alert(name);</span><br><span class="line">     <span class="keyword">var</span> name = <span class="string">'hi'</span>;</span><br><span class="line">     alert(name);</span><br><span class="line">&#125;</span><br><span class="line">echo();</span><br></pre></td></tr></table></figure>
+<p>首先name=”hello”是echo函数外部的局部变量，而在echo函数内部还存在一个局部变量name=”hi”，根据作用域的理解，我们可以想到内部定义会隐藏外部定义，这与我们的常识相符。同时echo函数内部的name在完成定义（赋值）前，就已经被使用，这在js里也是允许的，但它应该返回undefined。所以这里的结果应该是“undefined hi”，弹2次对话框。这个例子还是比较简单的，至少我们还能一眼看出其中的关系。如果再复杂呢？如何追溯到变量的定义，会变得棘手起来。</p>
+<h2 id="作用域链"><a href="#作用域链" class="headerlink" title="作用域链"></a>作用域链</h2><p>js引擎在工作的时候，会维护一个scope chain的对象，是一个列表的形式。以函数为例，func在定义的时候，它的scope chain链接到func的scope属性上；func执行时，会创建一个active object并且加入到scope chain的最顶端，arguments、形参（这里形参会赋实参的值）、内部变量、内部函数都会作为这个AO的属性存在。拿一个简单的例子来说明，</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">num1,num2</span>) </span>&#123;</span><br><span class="line">       <span class="keyword">var</span> sum = num1 + num2;</span><br><span class="line">       <span class="keyword">return</span> sum;</span><br><span class="line">&#125;;</span><br><span class="line">add(<span class="number">1</span>,<span class="number">2</span>);</span><br></pre></td></tr></table></figure>
+<p>在定义函数add的时候，add[scope]-&gt;[scope chain]-&gt;[global AO]：意思是add函数有一个属性是scope，它包含了add对象的作用域链，而这个作用域链其实是函数被创建时的作用域范围内的对象集合（在这里只有一个global对象window）。当add(1,2)运行时，又会引入一个执行上下文（函数运行的环境），它也有一个作用域链，它的作用域链在之前的基础上会加入一个active object（this、arguments、num1、num2、sum），并且被推到链表的顶端。作用域链指明了当前函数执行时所能访问的数据，顾名思义，函数会按照这个链接的顺序一路搜索直到global对象。这就是js构造作用域链的过程。  </p>
+<p>js中的with和catch会破坏普通的作用域链，额外加入一个临时对象withObject或者是catchObject到链表头部，从而影响作用域链。  </p>
+<h2 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h2><p>在前面已经说到func的[scope]，它是在函数定义时被创建的，并且一直存在。所以闭包实际就是函数+[scope]，它既拥有了函数的语句，也拥有函数定义时的可访问对象的集合。在执行闭包（函数）时，它的执行上下文=[scope]+AO。所以会出现下面的情况，</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> x = <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  alert(x);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> x = <span class="number">20</span>; <span class="comment">//注意x=20并不在foo的AO里，请仔细读下AO所包含的内容</span></span><br><span class="line">  foo(); <span class="comment">// 10, 如果没有定义var x=10，会x is not defined即x还没有声明。</span></span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+<p>在这里还有一个例外，</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> x=<span class="number">10</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> y = <span class="number">20</span>;</span><br><span class="line">    <span class="keyword">var</span> foo = <span class="built_in">Function</span>(<span class="string">'alert(x);alert(y);'</span>);</span><br><span class="line">    foo();</span><br><span class="line">&#125;</span><br><span class="line">fo();<span class="comment">//ReferenceError: y is not defined</span></span><br></pre></td></tr></table></figure>
+<p>它告诉我们的意思是如果用了Function来构造函数，那么[scope]总是全局对象global，在这里全局对象只包含x=10。所以，如果改成</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> x=<span class="number">10</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    y = <span class="number">20</span>;<span class="comment">//y也成为了全局变量</span></span><br><span class="line">    <span class="keyword">var</span> foo = <span class="built_in">Function</span>(<span class="string">'alert(x);alert(y);'</span>);</span><br><span class="line">    foo();</span><br><span class="line">&#125;</span><br><span class="line">fo();<span class="comment">//那么一切OK.</span></span><br></pre></td></tr></table></figure>
+<p>在作用域链中如果没有找到对象，那么js会继续查找，这个时候它的目光放在了原型链上（AO应该是没有原型的），直到object.prototy。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  alert(x);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">Object</span>.prototype.x = <span class="number">10</span>;</span><br><span class="line">foo(); <span class="comment">// 10</span></span><br></pre></td></tr></table></figure>
+<p>以上就是有关js作用域相关的话题，通过简短的描述，还是能清晰地看到它的原理。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/07/methodHandles-lookup/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          java8中使用interface的default方法
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/05/liquibase-usage/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">use liquibase</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+
+
+
+<section id="comments">
+  <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'xhao'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2020 Xie Hao
+    	</div>
+      	<div class="footer-right">
+      		<a href="//hexo.io/" target="_blank">Hexo</a>  Theme <a href="//github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a>
+      	</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="//7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-113278033-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+
+  </div>
+</body>
+</html>

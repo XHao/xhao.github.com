@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>java中的getHostname | Welcome to XHao&#39;s Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在linux服务器上，java程序有时会遇到unknown host name的问题。通过解决这些问题，我发现搞清楚jdk获取ip和hostname的方式以及linux机器的真实ip、hostname是关键。 linux上有很多常用命令会涉及，诸如：hostnamectl、nslookup、dig、ifconfig……下面我们先来看jdk如何获取hostname的">
+<meta name="keywords" content="linux,java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java中的getHostname">
+<meta property="og:url" content="https://xhao.io/2016/04/host-ip/index.html">
+<meta property="og:site_name" content="Welcome to XHao&#39;s Home">
+<meta property="og:description" content="在linux服务器上，java程序有时会遇到unknown host name的问题。通过解决这些问题，我发现搞清楚jdk获取ip和hostname的方式以及linux机器的真实ip、hostname是关键。 linux上有很多常用命令会涉及，诸如：hostnamectl、nslookup、dig、ifconfig……下面我们先来看jdk如何获取hostname的">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-07-23T15:25:07.501Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java中的getHostname">
+<meta name="twitter:description" content="在linux服务器上，java程序有时会遇到unknown host name的问题。通过解决这些问题，我发现搞清楚jdk获取ip和hostname的方式以及linux机器的真实ip、hostname是关键。 linux上有很多常用命令会涉及，诸如：hostnamectl、nslookup、dig、ifconfig……下面我们先来看jdk如何获取hostname的">
+  
+    <link rel="alternative" href="/atom.xml" title="Welcome to XHao&#39;s Home" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/img/neko.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Xie Hao</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/instagram">相册</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/XHao" title="github">github</a>
+					        
+								<a class="linkedin" target="_blank" href="https://cn.linkedin.com/pub/%E6%98%8A-%E8%B0%A2/30/70a/245" title="linkedin">linkedin</a>
+					        
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+								<a class="mail" target="_blank" href="mailto:sei_xh2006@126.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/net/" style="font-size: 10px;">.net</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/linux/" style="font-size: 16.67px;">linux</a> <a href="/tags/liquibase/" style="font-size: 10px;">liquibase</a> <a href="/tags/performance/" style="font-size: 16.67px;">performance</a> <a href="/tags/ruby/" style="font-size: 13.33px;">ruby</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/sql/" style="font-size: 16.67px;">sql</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a>
+					</div>
+				</section>
+				
+				
+				
+
+				
+				
+				<section class="switch-part switch-part3">
+				
+					<div id="js-aboutme">生活在上海的工程师</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Xie Hao</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+			
+				<img lazy-src="/img/neko.jpg" class="js-avatar">
+			
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Xie Hao</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/instagram">相册</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/XHao" title="github">github</a>
+			        
+						<a class="linkedin" target="_blank" href="https://cn.linkedin.com/pub/%E6%98%8A-%E8%B0%A2/30/70a/245" title="linkedin">linkedin</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="mail" target="_blank" href="mailto:sei_xh2006@126.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-host-ip" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/04/host-ip/" class="article-date">
+  	<time datetime="2016-04-15T16:00:00.000Z" itemprop="datePublished">2016-04-16</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      java中的getHostname
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在linux服务器上，java程序有时会遇到<code>unknown host name</code>的问题。通过解决这些问题，我发现搞清楚jdk获取ip和hostname的方式以及linux机器的真实ip、hostname是关键。</p>
+<p>linux上有很多常用命令会涉及，诸如：hostnamectl、nslookup、dig、ifconfig……下面我们先来看jdk如何获取hostname的<br><a id="more"></a></p>
+<h3 id="通过InetAddress-getLocalHost来获得Address"><a href="#通过InetAddress-getLocalHost来获得Address" class="headerlink" title="通过InetAddress.getLocalHost来获得Address"></a>通过<code>InetAddress.getLocalHost</code>来获得Address</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Returns the<span class="built_in"> address </span>of the local host. This is achieved by retrieving the name of the host <span class="keyword">from</span> the system, then resolving that name into an InetAddress.</span><br><span class="line"></span><br><span class="line">Note: The resolved<span class="built_in"> address </span>may be cached <span class="keyword">for</span> a short period of time.</span><br></pre></td></tr></table></figure>
+<p>它的实现分3个部分：</p>
+<ol>
+<li>先是<code>impl.getLocalHostName()</code>取得hostname。这是一个native方法，在linux内核上是通过调用内核函数<code>gethostname</code>完成。而hostname是和下面有关的</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[hao.xie@hao-xie-vm ~]$ hostname <span class="comment">#hostname返回当前值</span></span><br><span class="line">hao-xie-vm</span><br><span class="line">[hao.xie@vhao-xie-vm ~]$ more /proc/sys/kernel/hostname <span class="comment">#当前值，或者说修改后生效</span></span><br><span class="line">hao-xie-vm</span><br><span class="line">[hao.xie@hao-xie-vm ~]$ more /etc/sysconfig/network <span class="comment">#这个文件需要重点说下，reboot的时候，系统会读取它，并给hostname赋值，但是在运行过程中修改它不会立即生效，需要配合hostname命令生效</span></span><br><span class="line"><span class="comment"># Created by anaconda</span></span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>接着，jdk又去查了缓存的localhost信息（5s有效的cache），如果没有缓存才开始取address</li>
+<li>取Address的方式是<code>InetAddress.getAddressesFromNameService</code>，按字面意思就是向dns来反向查询自己</li>
+</ol>
+<h3 id="InetAddress-getLocalHost-getHostName获取hostname"><a href="#InetAddress-getLocalHost-getHostName获取hostname" class="headerlink" title="InetAddress.getLocalHost.getHostName获取hostname"></a><code>InetAddress.getLocalHost.getHostName</code>获取hostname</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Gets the host name <span class="keyword">for</span> this<span class="built_in"> IP </span>address.</span><br><span class="line"></span><br><span class="line"><span class="keyword">If</span> this InetAddress was created with a host name, this host name will be remembered <span class="keyword">and</span> returned; otherwise, a reverse name lookup will be performed <span class="keyword">and</span> the result will be returned based on the<span class="built_in"> system </span>configured name lookup service. <span class="keyword">If</span> a lookup of the name<span class="built_in"> service </span>is required, call getCanonicalHostName.</span><br></pre></td></tr></table></figure>
+<p>描述很清楚，就是再通过ip反向来查hostname，原因和上面一样。</p>
+<h3 id="我遇到过的问题"><a href="#我遇到过的问题" class="headerlink" title="我遇到过的问题"></a>我遇到过的问题</h3><p>我之前在服务器上发现hostname返回的是<code>A</code>，但是<code>InetAddress.getLocalHost.getHostName</code>返回异常<code>unknown host name : host name B</code>。原因就是2次dns的结果差异造成<code>hostname A -&gt; ip1；ip1 -&gt; B</code>这种尴尬的事情。这个时候就需要nslookup工具来检查，最后在dns服务器上进行修改了。</p>
+<h3 id="如何在java代码中获取本机ip（非127-0-0-1）"><a href="#如何在java代码中获取本机ip（非127-0-0-1）" class="headerlink" title="如何在java代码中获取本机ip（非127.0.0.1）"></a>如何在java代码中获取本机ip（非127.0.0.1）</h3><p>有一些推荐的方式，比如通过遍历网卡来选择</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> InetAddress <span class="title">getLocalHostLANAddress</span><span class="params">()</span> <span class="keyword">throws</span> UnknownHostException, SocketException </span>&#123;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			InetAddress candidateAddress = <span class="keyword">null</span>;</span><br><span class="line">			<span class="comment">// Iterate all NICs (network interface cards)...</span></span><br><span class="line">			Enumeration&lt;NetworkInterface&gt; ifaces = NetworkInterface.getNetworkInterfaces();</span><br><span class="line">			<span class="keyword">while</span> (ifaces.hasMoreElements()) &#123;</span><br><span class="line">				NetworkInterface iface = (NetworkInterface) ifaces.nextElement();</span><br><span class="line">				<span class="keyword">for</span> (<span class="meta">@SuppressWarnings</span>(<span class="string">"rawtypes"</span>)</span><br><span class="line">				Enumeration inetAddrs = iface.getInetAddresses(); inetAddrs.hasMoreElements();) &#123;</span><br><span class="line">					InetAddress inetAddr = (InetAddress) inetAddrs.nextElement();</span><br><span class="line">					<span class="keyword">if</span> (!inetAddr.isLoopbackAddress()) &#123;</span><br><span class="line">						<span class="keyword">if</span> (inetAddr.isSiteLocalAddress()) &#123;</span><br><span class="line">							<span class="keyword">return</span> inetAddr;</span><br><span class="line">						&#125; <span class="keyword">else</span> <span class="keyword">if</span> (candidateAddress == <span class="keyword">null</span>) &#123;</span><br><span class="line">							candidateAddress = inetAddr;</span><br><span class="line">						&#125;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> (candidateAddress != <span class="keyword">null</span>) &#123;</span><br><span class="line">				<span class="keyword">return</span> candidateAddress;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">// At this point, we did not find a non-loopback address.</span></span><br><span class="line">			<span class="comment">// Fall back to returning whatever InetAddress.getLocalHost()</span></span><br><span class="line">			<span class="comment">// returns...</span></span><br><span class="line">			InetAddress jdkSuppliedAddress = InetAddress.getLocalHost();</span><br><span class="line">			<span class="keyword">if</span> (jdkSuppliedAddress == <span class="keyword">null</span>) &#123;</span><br><span class="line">				<span class="keyword">throw</span> <span class="keyword">new</span> UnknownHostException(<span class="string">"The JDK InetAddress.getLocalHost() method unexpectedly returned null."</span>);</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">return</span> jdkSuppliedAddress;</span><br><span class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">			UnknownHostException unknownHostException = <span class="keyword">new</span> UnknownHostException(</span><br><span class="line">					<span class="string">"Failed to determine LAN address: "</span> + e);</span><br><span class="line">			unknownHostException.initCause(e);</span><br><span class="line">			<span class="keyword">throw</span> unknownHostException;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<p>或者通过建立tcp socket来反向获取本机ip</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">trickyIp</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> (<span class="keyword">final</span> Socket socket = <span class="keyword">new</span> Socket()) &#123;</span><br><span class="line">        socket.connect(<span class="keyword">new</span> InetSocketAddress(<span class="string">"www.google.com"</span>, <span class="number">80</span>));</span><br><span class="line">        <span class="keyword">return</span> socket.getLocalAddress().getHostAddress();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="在java代码中获得hostname"><a href="#在java代码中获得hostname" class="headerlink" title="在java代码中获得hostname"></a>在java代码中获得<a href="/2016/09/hostname">hostname</a></h3><p><code>hostname(1)</code>应该是唯一的选择（错误的网络环境配置导致上面的例子），所以在java代码中就变成了如何调用系统调用了，通过jni或者jna都是可以的，比如</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 通过jna</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">CLibrary</span> <span class="keyword">extends</span> <span class="title">Library</span> </span>&#123;</span><br><span class="line">    CLibrary INSTANCE = (CLibrary) Native.loadLibrary(<span class="string">"c"</span>, CLibrary<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">gethostname</span><span class="params">(<span class="keyword">byte</span>[] hostname, <span class="keyword">int</span> bufferSize)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">hostname</span><span class="params">()</span> <span class="keyword">throws</span> UnknownHostException </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (Platform.isWindows()) &#123;</span><br><span class="line">            <span class="keyword">return</span> Kernel32Util.getComputerName();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">byte</span>[] hostnameBuffer = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">255</span>];</span><br><span class="line">            <span class="keyword">int</span> result = CLibrary.INSTANCE.gethostname(hostnameBuffer, hostnameBuffer.length);</span><br><span class="line">            <span class="keyword">if</span> (result != <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> InetAddress.getLocalHost().getHostName();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> Native.toString(hostnameBuffer);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/06/802-11/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          802.11n-wifi信道
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/02/maven-plugin/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">maven插件开发</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+
+
+
+<section id="comments">
+  <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'xhao'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2020 Xie Hao
+    	</div>
+      	<div class="footer-right">
+      		<a href="//hexo.io/" target="_blank">Hexo</a>  Theme <a href="//github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a>
+      	</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="//7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-113278033-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+
+  </div>
+</body>
+</html>

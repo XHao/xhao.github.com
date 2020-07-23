@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>getaddrinfo探秘 | Welcome to XHao&#39;s Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在现在流行的服务化调用场景中，为了避免服务的单点问题，会将服务部署成一个集群，然后利用服务注册中心来解决服务发现问题。 为了解决服务注册中心的单点问题，有时候会选择古老的dns轮询。 通过将一个域名关联多条A记录，利用域名服务器每次的不同返回，达到软负载的效果。 关于jdk的dns解析，网上有很多文章介绍，有对的地方也有错的。">
+<meta name="keywords" content="linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="getaddrinfo探秘">
+<meta property="og:url" content="https://xhao.io/2018/09/getaddrinfo/index.html">
+<meta property="og:site_name" content="Welcome to XHao&#39;s Home">
+<meta property="og:description" content="在现在流行的服务化调用场景中，为了避免服务的单点问题，会将服务部署成一个集群，然后利用服务注册中心来解决服务发现问题。 为了解决服务注册中心的单点问题，有时候会选择古老的dns轮询。 通过将一个域名关联多条A记录，利用域名服务器每次的不同返回，达到软负载的效果。 关于jdk的dns解析，网上有很多文章介绍，有对的地方也有错的。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://xhao.io/img/dns-mac.jpg">
+<meta property="og:image" content="https://xhao.io/img/dns-centos.jpg">
+<meta property="og:updated_time" content="2020-07-23T15:25:07.501Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="getaddrinfo探秘">
+<meta name="twitter:description" content="在现在流行的服务化调用场景中，为了避免服务的单点问题，会将服务部署成一个集群，然后利用服务注册中心来解决服务发现问题。 为了解决服务注册中心的单点问题，有时候会选择古老的dns轮询。 通过将一个域名关联多条A记录，利用域名服务器每次的不同返回，达到软负载的效果。 关于jdk的dns解析，网上有很多文章介绍，有对的地方也有错的。">
+<meta name="twitter:image" content="https://xhao.io/img/dns-mac.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="Welcome to XHao&#39;s Home" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/img/neko.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Xie Hao</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/instagram">相册</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/XHao" title="github">github</a>
+					        
+								<a class="linkedin" target="_blank" href="https://cn.linkedin.com/pub/%E6%98%8A-%E8%B0%A2/30/70a/245" title="linkedin">linkedin</a>
+					        
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+								<a class="mail" target="_blank" href="mailto:sei_xh2006@126.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/net/" style="font-size: 10px;">.net</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/linux/" style="font-size: 16.67px;">linux</a> <a href="/tags/liquibase/" style="font-size: 10px;">liquibase</a> <a href="/tags/performance/" style="font-size: 16.67px;">performance</a> <a href="/tags/ruby/" style="font-size: 13.33px;">ruby</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/sql/" style="font-size: 16.67px;">sql</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a>
+					</div>
+				</section>
+				
+				
+				
+
+				
+				
+				<section class="switch-part switch-part3">
+				
+					<div id="js-aboutme">生活在上海的工程师</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Xie Hao</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+			
+				<img lazy-src="/img/neko.jpg" class="js-avatar">
+			
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Xie Hao</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/instagram">相册</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/XHao" title="github">github</a>
+			        
+						<a class="linkedin" target="_blank" href="https://cn.linkedin.com/pub/%E6%98%8A-%E8%B0%A2/30/70a/245" title="linkedin">linkedin</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="mail" target="_blank" href="mailto:sei_xh2006@126.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-getaddrinfo" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/09/getaddrinfo/" class="article-date">
+  	<time datetime="2018-09-26T16:00:00.000Z" itemprop="datePublished">2018-09-27</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      getaddrinfo探秘
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在现在流行的服务化调用场景中，为了避免服务的单点问题，会将服务部署成一个集群，然后利用服务注册中心来解决服务发现问题。</p>
+<p>为了解决服务注册中心的单点问题，有时候会选择古老的dns轮询。</p>
+<p>通过将一个域名关联多条A记录，利用域名服务器每次的不同返回，达到软负载的效果。</p>
+<p>关于jdk的dns解析，网上有很多文章介绍，有对的地方也有错的。<br><a id="more"></a><br>首先看看常用的jdk方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// netty Bootstrap Line 97</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ChannelFuture <span class="title">connect</span><span class="params">(String inetHost, <span class="keyword">int</span> inetPort)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> connect(<span class="keyword">new</span> InetSocketAddress(inetHost, inetPort));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这段代码入参是hostname，获得socket连接，在<code>InetSocketAddress</code>中自动完成了dns的工作——<code>InetAddress.getByName(hostname)</code></p>
+<p>jdk中dns查询分2步完成，首先是检查addressCache；如果没有发现，则触发一次网络dns查询。</p>
+<p><code>InetAddressCachePolicy</code>是address的缓存，默认是30s的缓存时间，可以通过<code>networkaddress.cache.ttl</code>来修改。这个cache有这样几个特点：</p>
+<ol>
+<li>如果你通过security property的方式设了值，则在运行期不可以修改</li>
+<li>如果运行期修改ttl，不能比以前小</li>
+</ol>
+<p>从代码上猜测，主要是因为dns查询本身损耗性能，加入这种安全限制，能避免三方库随意设置，导致应用出现瓶颈。</p>
+<p>如果想在运行期自由控制dns缓存时间，就只能通过反射这种方式了</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Field f = sun.net.InetAddressCachePolicy.class.getDeclaredField("cachePolicy");</span><br><span class="line">            f.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">            <span class="keyword">int</span> cache = (<span class="keyword">int</span>) f.get(sun.net.InetAddressCachePolicy<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">            System.err.println(<span class="string">"before ttl is "</span>+cache);</span><br><span class="line">            f.set(sun.net.InetAddressCachePolicy<span class="class">.<span class="keyword">class</span>, 0)</span>;</span><br><span class="line">            cache = (<span class="keyword">int</span>) f.get(sun.net.InetAddressCachePolicy<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">            System.err.println(<span class="string">"after ttl is "</span>+cache);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) &#123;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span>(<span class="keyword">true</span>)&#123;</span><br><span class="line">            Arrays.asList(InetAddress.getAllByName(<span class="string">"xhao.io"</span>)).forEach(System.out::println);</span><br><span class="line">            System.out.println(<span class="string">"-------------"</span>);</span><br><span class="line">            Thread.sleep(<span class="number">5000L</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>ok，当我们将ttl换成0之后，跑跑看，会发现在不同的机器上结果不一样。</p>
+<p>macos high sierra</p>
+<p><img src="/img/dns-mac.jpg" alt="mac dns 查询"></p>
+<p>CentOS Linux release 7.5.1804</p>
+<p><img src="/img/dns-centos.jpg" alt="centos dns 查询"></p>
+<p>因为我们已经调整了dns缓存的时间，所以每次打印的结果都是通过dns查询得来的。</p>
+<p>但是在mac上感觉ip顺序是固定的，而centos上却是无序的；换句话说，在mac上无法实现dns轮询，而centos上还可以。具体原因是什么呢？关于这个，查阅了一些资料，但都说的不清楚，有一个可能性是关于RFC 3484</p>
+<blockquote>
+<p><a href="https://www.systutorials.com/docs/linux/man/3-getaddrinfo/" target="_blank" rel="noopener">getaddrinfo</a>: The sorting function used within getaddrinfo() is defined in RFC 3484; the order can be tweaked for a particular system by editing /etc/gai.conf (available since glibc 2.5).</p>
+</blockquote>
+<p>网上一些关于RFC 3484的说明是：</p>
+<ol>
+<li>给ip排序的目的是想尽量使用ipv6，方便ipv6设备的推广</li>
+<li>应该少依赖dns轮询，这不可靠</li>
+<li>ip排序有一定的规则，会实现与否要看本地库（这只是建议，不强制）</li>
+</ol>
+<p>在mac上并不打算继续追查这个问题了，偷懒认为它是按照标准实现的。但是linux上，可以用trace工具看看<code>getaddrinfo</code>的逻辑。所以找了台机器跑一跑下面的程序：<code>strace ./a.out</code></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;netdb.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * ===  FUNCTION</span></span><br><span class="line"><span class="comment"> * ====================================================================== Name:</span></span><br><span class="line"><span class="comment"> * main Description:</span></span><br><span class="line"><span class="comment"> * =====================================================================================</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">addrinfo</span> <span class="title">hints</span>, *<span class="title">res</span> = <span class="title">NULL</span>;</span></span><br><span class="line">  <span class="keyword">char</span> *host = <span class="string">"xhao.io"</span>;</span><br><span class="line">  <span class="built_in">memset</span>(&amp;hints, <span class="number">0</span>, <span class="keyword">sizeof</span>(hints));</span><br><span class="line">  hints.ai_flags = AI_CANONNAME;</span><br><span class="line">  hints.ai_family = AF_UNSPEC;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">int</span> getaddrinfo_error = getaddrinfo(host, <span class="literal">NULL</span>, &amp;hints, &amp;res);</span><br><span class="line">  <span class="keyword">if</span> (getaddrinfo_error)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"fail %s"</span>, gai_strerror(getaddrinfo_error));</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">  &#123;</span><br><span class="line">    struct addrinfo *iterator = res;</span><br><span class="line">    <span class="keyword">char</span> prev[<span class="number">100</span>], addrstr[<span class="number">100</span>];</span><br><span class="line">    <span class="keyword">void</span> *ptr;</span><br><span class="line">    <span class="keyword">while</span> (iterator != <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">if</span> (iterator-&gt;ai_family == AF_INET)</span><br><span class="line">      &#123; <span class="comment">/* AF_INET */</span></span><br><span class="line">        ptr = &amp;((struct sockaddr_in *)iterator-&gt;ai_addr)-&gt;sin_addr;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">else</span></span><br><span class="line">      &#123;</span><br><span class="line">        ptr = &amp;((struct sockaddr_in6 *)iterator-&gt;ai_addr)-&gt;sin6_addr;</span><br><span class="line">      &#125;</span><br><span class="line">      inet_ntop(iterator-&gt;ai_family, ptr, addrstr, <span class="number">100</span>);</span><br><span class="line">      <span class="keyword">if</span> (<span class="built_in">strcmp</span>(prev, addrstr) != <span class="number">0</span>)</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"Ipv%d is %s\n"</span>, iterator-&gt;ai_family == AF_INET ? <span class="number">4</span> : <span class="number">6</span>,</span><br><span class="line">               addrstr);</span><br><span class="line">        <span class="built_in">strncpy</span>(prev, addrstr, <span class="number">100</span>);</span><br><span class="line">      &#125;</span><br><span class="line">      iterator = iterator-&gt;ai_next;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> EXIT_SUCCESS;</span><br><span class="line">&#125; <span class="comment">/* ----------  end of function main  ---------- */</span></span><br></pre></td></tr></table></figure>
+<p>我们会发现结果和jdk中的结果相同，基本可以判断并没有之前所说的排序过程。</p>
+<p>同时我们还发现，jdk是调用了系统命令来查询dns，这和我们在jdk源码中看到的差不多(jdk这部分代码有一大坨，看起来只是在整理和排序)</p>
+<p>我们还发现getaddrinfo是一个很重的命令，因为它每次都会去发请求到dns服务器上，并没有任何缓存。这应该就是jdk自己做了缓存的原因，毕竟每次都查询dns服务器，对性能是有影响的。</p>
+<p>关于java dns相关的，大概就是这些内容了。总之dns轮询不一定可靠，需要慎重对待。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/05/javaagent/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          javaagent的使用
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/06/stringintern/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">一次StringIntern和ParNew GC</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+
+
+
+<section id="comments">
+  <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'xhao'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2020 Xie Hao
+    	</div>
+      	<div class="footer-right">
+      		<a href="//hexo.io/" target="_blank">Hexo</a>  Theme <a href="//github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a>
+      	</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="//7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-113278033-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+
+  </div>
+</body>
+</html>
